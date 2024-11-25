@@ -1,6 +1,7 @@
 // Study spot data
 const studySpots = [
     {
+        image: "https://upload.wikimedia.org/wikipedia/commons/c/c3/USCLeavey2007.jpg",
         name: "Leavey Library",
         position: { lat: 34.0219, lng: -118.2828 },
         rating: 9,
@@ -11,6 +12,7 @@ const studySpots = [
         ]
     },
     {
+        image: "https://libraries.usc.edu/sites/default/files/styles/16_9_xlarge/public/2019-08/dml-front.jpg?itok=fFEBm0a3",
         name: "Doheny Library",
         position: { lat: 34.0205, lng: -118.2837 },
         rating: 8.5,
@@ -21,6 +23,7 @@ const studySpots = [
         ]
     },
     {
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2-lyBbsfHYb8gwHXGNk1WvF1BVHbVRQZBJg&s",
         name: "Dulce Cafe",
         position: { lat: 34.0250, lng: -118.2849 },
         rating: 7.5,

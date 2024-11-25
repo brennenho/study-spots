@@ -8,6 +8,7 @@ function showSpotDetails(spot) {
 
     spotContent.innerHTML = `
         <div class="spot-header">
+            ${spot.image ? `<img src="${spot.image}" alt="${spot.name}" class="spot-image">` : ''}
             <div class="spot-name">${spot.name}</div>
             <div class="rating">
                 <span class="stars">${stars}</span>

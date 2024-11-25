@@ -1,6 +1,7 @@
 // Study spot data
 const studySpots = [
     {
+        image: "https://libraries.usc.edu/sites/default/files/styles/16_9_xlarge/public/2019-08/dml-front.jpg?itok=fFEBm0a3",
         name: "Leavey Library",
         position: { lat: 34.0219, lng: -118.2828 },
         rating: 9,
@@ -11,6 +12,7 @@ const studySpots = [
         ]
     },
     {
+        image: "https://libraries.usc.edu/sites/default/files/styles/16_9_large/public/2019-11/doheny_library.jpg",
         name: "Doheny Library",
         position: { lat: 34.0205, lng: -118.2837 },
         rating: 8.5,
@@ -21,6 +23,7 @@ const studySpots = [
         ]
     },
     {
+        image: "https://media.timeout.com/images/105490663/750/422/image.jpg",
         name: "Dulce Cafe",
         position: { lat: 34.0250, lng: -118.2849 },
         rating: 7.5,
@@ -80,6 +83,7 @@ function showSpotDetails(spot) {
 
     spotContent.innerHTML = `
         <div class="spot-header">
+            ${spot.image ? `<img src="${spot.image}" alt="${spot.name}" class="spot-image">` : ''}
             <div class="spot-name">${spot.name}</div>
             <div class="rating">
                 <span class="stars">${stars}</span>
