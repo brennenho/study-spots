@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Study Spot - USC Study Spots</title>
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/addspot.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav>
+            <div class="logo">USC Study Spots</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="addspot.html"class="active">Add Spot</a></li>
+                <li><a href="../map.html">Map</a></li>
+                <li><a href="../login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="intro">
+        <h1>Great study spots deserve to be shared <br> 
+            Let’s make studying easier for everyone
+            &#128218;
+        </h1> 
+    </div>
+
+    <!-- Add Spot Form -->
+    <div class="main-content">
+        <div class="text">Study Spot Submission</div>
+        <form action='#'> 
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="spotname" name="spotname" placeholder="i.e. Facaulty Hall" required>
+                    <div class="underline"></div>
+                    <label>Spot Name</label>
+                </div>
+                <div class="input-data">
+                    <input type="text" id="location" name="location" placeholder="i.e. Doheny Memorial Library"required>
+                    <div class="underline"></div>
+                    <label>Location On Campus</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="address" name="address" placeholder="i.e. 3550 Trousdale Pkwy, Los Angeles, CA 90089" required>
+                    <div class="underline"></div>
+                    <label>Address</label>
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-data">
+                    <input type="text" id="hours" name="hours" placeholder="i.e. monday - friday 9am to 10pm saturday 9am to 5pm sunday 12pm to 8pm" required>
+                    <div class="underline"></div>
+                    <label>Operating Hours</label> 
+                </div>
+            </div>
+            <div class="form-row submit-btn">
+                <div class="input-data">
+                    <div class="inner"></div>
+                    <input type="submit" value="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
