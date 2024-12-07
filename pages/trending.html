@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trending Study Spots</title>
+    <style>
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #333;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .site-header {
+            background-color: #001f3f;
+            padding: 1rem;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .trending-section h2 {
+            font-size: 1.5rem;
+            color: #001f3f;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .refresh-button {
+            background-color: #0074D9;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .refresh-button:hover {
+            background-color: #0065bd;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-content {
+            flex-grow: 1;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            color: #333;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .card .tags {
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .tags span {
+            background-color: #f0f2f5;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .rating .star {
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .rating .star.active {
+            color: #ffdc00;
+        }
+
+        .rating span:last-child {
+            margin-left: 0.5rem;
+            color: #555;
+        }
+
+        .primary-button {
+            background-color: #0074D9;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+
+        .primary-button:hover {
+            box-shadow: 0 4px 12px rgba(0, 116, 217, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media screen and (max-width: 640px) {
+            .card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .primary-button {
+                margin: 1rem 0 0 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .trending-section h2 {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navigation">
+            <h1 class="logo">StudySpot</h1>
+            <ul class="nav-links">
+                <li><a href="#">Map</a></li>
+                <li><a href="pages/addspot.html" class="active">Add Spot</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">Saved Spots</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="trending-section">
+            <h2>
+                Trending Study Spots
+                <button class="refresh-button">↻ Refresh</button>
+            </h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Doheny Memorial Library</h3>
+                        <p class="tags">
+                            <span>Quiet Space</span>
+                            <span>Individual Study</span>
+                        </p>
+                        <div class="rating">
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star">★</span>
+                            <span>(4.0)</span>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-button">View Details</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Leavey Library</h3>
+                        <p class="tags">
+                            <span>Group Study</span>
+                            <span>24/7 Access</span>
+                        </p>
+                        <div class="rating">
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span>(3.5)</span>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-button">View Details</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Hoose Library of Philosophy</h3>
+                        <p class="tags">
+                            <span>Silent Study</span>
+                            <span>Historic Building</span>
+                        </p>
+                        <div class="rating">
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span class="star active">★</span>
+                            <span>(5.0)</span>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-button">View Details</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+    </footer>
+</body>
+</html>

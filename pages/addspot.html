@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,45 +8,51 @@
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/addspot.css">
 </head>
+<script src="../js/addspot.js"></script>
 <body>
     <header class="main-header">
         <nav>
-            <div class="logo">USC Study Spots</div>
+            <div class="logo">USC Study Spots </div>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="addspot.html"class="active">Add Spot</a></li>
-                <li><a href="../map.html">Map</a></li>
-                <li><a href="../login.html">Login</a></li>
+                <li><a href="addspot.html" class="active">Add Spot</a></li>
+                <li><a href="./map.html">Map</a></li>
+                <li><a href="./review_page.html">Reviews</a></li>
+                <li><a href="./trending.html">Trending</a></li>
+                <li><a href="./login.html">Login</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="intro">
-        <h1>Great study spots deserve to be shared <br> 
-            Let’s make studying easier for everyone
-            &#128218;
-        </h1> 
+    <!-- Study Spot Images -->
+    <div class="image-row">
+        <img src="../img/philosophy-lib.jpg" alt="Philosphy Library">
+        <img src="../img/leavey.jpg" alt="Leavey Library">
+        <img src="../img/Doheny-Library.jpg" alt="Doheny Library">
     </div>
 
     <!-- Add Spot Form -->
-    <div class="main-content">
+    <div class="submission-container">
         <div class="text">Study Spot Submission</div>
-        <form action='#'> 
+        <!-- connect to servlet -->
+        <form class="spot-submission" action='AddStudySpotServlet' method="POST">
             <div class="form-row">
                 <div class="input-data">
-                    <input type="text" id="spotname" name="spotname" placeholder="i.e. Facaulty Hall" required>
+                    <input type="text" id="spotname" name="spotname" placeholder="Facaulty Hall" required>
                     <div class="underline"></div>
                     <label>Spot Name</label>
                 </div>
                 <div class="input-data">
-                    <input type="text" id="location" name="location" placeholder="i.e. Doheny Memorial Library"required>
+                    <input type="text" id="location" name="location" placeholder="i.e. Doheny Memorial Library"
+                        required>
                     <div class="underline"></div>
                     <label>Location On Campus</label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="input-data">
-                    <input type="text" id="address" name="address" placeholder="i.e. 3550 Trousdale Pkwy, Los Angeles, CA 90089" required>
+                    <input type="text" id="address" name="address"
+                        placeholder="i.e. 3550 Trousdale Pkwy, Los Angeles, CA 90089" required>
                     <div class="underline"></div>
                     <label>Address</label>
 
@@ -53,9 +60,10 @@
             </div>
             <div class="form-row">
                 <div class="input-data">
-                    <input type="text" id="hours" name="hours" placeholder="i.e. monday - friday 9am to 10pm saturday 9am to 5pm sunday 12pm to 8pm" required>
+                    <input type="text" id="hours" name="hours"
+                        placeholder="i.e. monday - friday 9am to 10pm saturday 9am to 5pm sunday 12pm to 8pm" required>
                     <div class="underline"></div>
-                    <label>Operating Hours</label> 
+                    <label>Operating Hours</label>
                 </div>
             </div>
             <div class="form-row submit-btn">
@@ -66,5 +74,14 @@
             </div>
         </form>
     </div>
+
+    <div class="message">
+        <p> Great study spots deserve to be shared, <br>
+            together we can make studying easier for everyone
+            <br>
+        </p>
+    </div>
+
 </body>
+
 </html>
