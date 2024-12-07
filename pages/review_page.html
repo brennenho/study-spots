@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Study Spot Reviews</title>
+    <link rel="stylesheet" href="../styles/header.css">
     <style>
         /* Reset and Fonts */
         * {
@@ -19,12 +20,12 @@
 
         .review-container {
             max-width: 1000px;
-            margin: 2rem auto;
+            margin: 7rem auto 2rem; 
             padding: 0 1rem;
         }
 
-   
         .spot-info {
+
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -258,6 +259,21 @@
     </style>
 </head>
 <body>
+    
+    <header class="main-header">
+        <nav>
+            <a href="../index.html" class="logo">USC Study Spots</a>
+            <ul class="nav-links">
+                <li><a href="addspot.html" > Add Spot</a></li>
+                <li><a href="./map.html">Map</a></li>
+                <li><a href="./review_page.html" class="active"> Reviews</a></li>
+                <li><a href="./trending.html">Trending</a></li>
+                <li><a href="./login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
     <div class="review-container">
         <!-- Study Spot Information -->
         <div class="spot-info">

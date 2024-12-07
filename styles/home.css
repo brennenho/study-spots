@@ -1,6 +1,6 @@
 .hero {
     background: linear-gradient(rgba(153, 0, 0, 0.9), rgba(153, 0, 0, 0.7)),
-                url('/images/usc-campus.jpg') center/cover;
+                url('/img/usc-campus.jpg') center/cover;
     color: white;
     text-align: center;
     padding: 100px 20px;

@@ -20,9 +20,21 @@ nav {
     margin: 0 auto;
 }
 
+/* .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+} */
+
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
+    color: white;
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.logo:hover {
+    text-decoration: none; /* Ensure hover doesn't change the text decoration */
+    color: white; /* Optional: Ensure color consistency on hover */
 }
 
 .nav-links {
