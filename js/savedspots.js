@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function fetchSavedSpots() {
         try {
-            const response = await fetch("/api/savedspots"); // Replace with actual API endpoint
+            const response = await fetch("http://localhost:8080/SavedStudySpots/userspecific"); 
             if (!response.ok) throw new Error("Failed to fetch saved spots.");
             return await response.json();
         } catch (error) {
@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     function createSpotCard(spot) {
         const card = document.createElement("div");
         card.className = "card";
-
     
         card.innerHTML = `
             <img src="${spot.image}" alt="${spot.name}">
@@ -56,6 +55,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     // fakeData.forEach(spot => container.appendChild(createSpotCard(spot)));
 
     displaySavedSpots();
-
-
 }); 
