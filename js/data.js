@@ -1,28 +1,41 @@
 // Study spot data
 let studySpots = [];
 
+
 async function fetchStudySpots() {
     try {
-        const response = await fetch('http://localhost:8080/AllStudySpots/getall');
+        const response = await fetch('http://localhost:8080/api/studyspots/getall');
         const data = await response.json();
-        studySpots = data.map(spot => ({
-            spotId: spot.spotId,       
-            name: spot.name,           
-            address: spot.address,     
-            image: spot.image,         
-            position: {                 
-                lat: spot.latitude,
-                lng: spot.longitude
-            },
-            rating: spot.rating,       
-            characteristics: [],       
-            reviews: []                
+
+        studySpots = await Promise.all(data.map(async (spot) => {
+            const reviewsResponse = await fetch(`http://localhost:8080/comments/spot/${spot.spotId}`);
+            const reviews = await reviewsResponse.json();
+
+            return {
+                spotId: spot.spotId,
+                name: spot.name,
+                address: spot.address,
+                image: spot.image,
+                position: {
+                    lat: spot.latitude,
+                    lng: spot.longitude
+                },
+                rating: spot.rating,
+                characteristics: [], 
+                reviews: reviews.map(review => ({
+                    author: `User ${review.userId}`,
+                    rating: review.rating,
+                    text: review.description
+                }))
+            };
         }));
+
         createMarkers();
     } catch (error) {
         console.error('Error fetching study spots:', error);
     }
 }
+
 
 
 // const studySpots = [
