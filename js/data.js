@@ -30,7 +30,7 @@ async function fetchStudySpots() {
             };
         }));
 
-        createMarkers();
+        createMarkers(studySpots);
     } catch (error) {
         console.error('Error fetching study spots:', error);
     }

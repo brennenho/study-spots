@@ -18,7 +18,7 @@ function initMap() {
     fetchStudySpots();
 }
 
-function createMarkers() {
+function createMarkers(studySpots) {
     studySpots.forEach(spot => {
         const marker = new google.maps.Marker({
             position: spot.position,
