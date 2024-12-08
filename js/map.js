@@ -15,7 +15,7 @@ function initMap() {
         ]
     });
 
-    createMarkers();
+    fetchStudySpots();
 }
 
 function createMarkers() {
@@ -37,5 +37,4 @@ function createMarkers() {
     });
 }
 
-// Initialize the map
 initMap();
