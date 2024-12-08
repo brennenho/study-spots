@@ -473,22 +473,23 @@ async function saveSpot(){
         }
 
       //check what the request format is for getting study spot by name or id
-        function fetchSpotInfo(){
-        	fetch(`${backendBaseUrl}/api/studyspots/get/${spotId}`)
+       async function fetchSpotInfo(){
+        	fetch(`${backendBaseUrl}/api/studyspots/getbyid/${spotId}`)
         		.then(response => response.json())
         		.then(data =>
         		{
+        			console.log(data);
         			updateSpotInfo(data);
         		})
         		.catch(error => console.error('Error fetching spot info:', error));
         	
-        	updateSpotInfo();
+        	//updateSpotInfo();
+
         		
         }
       
         function updateSpotInfo(data){
-            //function updateSpotInfo(info){
-            	//console.log("hi");
+            	console.log(data);
             	var spot;
             	spot = {       
     	            name: data.name,           
