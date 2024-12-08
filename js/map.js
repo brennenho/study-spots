@@ -37,4 +37,7 @@ function createMarkers(studySpots) {
     });
 }
 
-initMap();
+document.addEventListener('DOMContentLoaded', () => {
+    updateNavigation();
+    initMap();
+});
