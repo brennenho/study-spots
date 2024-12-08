@@ -233,6 +233,21 @@
             line-height: 1.6;
             font-size: 1rem;
         }
+        
+         .spot-tags {
+		    display: flex;
+		    flex-wrap: wrap;
+		    gap: 10px;
+		    margin-bottom: 20px;
+		    color: #555;
+		}
+		
+		.characteristic {
+		    background: #f0f0f0;
+		    padding: 5px 10px;
+		    border-radius: 15px;
+		    font-size: 14px;
+		}
 
         @media (max-width: 768px) {
             .spot-info {
@@ -267,22 +282,30 @@
 
     <div class="review-container">
         <div class="spot-info">
-            <img src="/api/placeholder/250/180" alt="Study Spot" class="spot-image">
+            <img src="/api/placeholder/250/180" alt="Study Spot" class="spot-image" id="spot-image">
             <div class="spot-details">
-                <h1>Leavey Library - 2nd Floor</h1>
+                <h1 id="spot-name">Leavey Library - 2nd Floor</h1>
                 <div class="spot-stats">
                     <div>
                         <div class="rating-avg" id="spot-rating-avg"></div>
                         <div id="spot-based-on"></div>
                     </div>
                     <div>
-                        <div>Noise Level</div>
-                        <div>Quiet</div>
+                        <div>Hours</div>
+                        <div id = "spot-hours"></div>
                     </div>
                     <div>
-                        <div>Hours</div>
-                        <div>24/7</div>
+                        <div>Location</div>
+                        <div id = "spot-location"></div>
                     </div>
+                </div>
+                <br>
+                <div>
+                	<br>
+                	<div class= "spot-tags" id = "spot-tags"></div>
+                </div>
+                <div>
+                	<button id = "save-button" class = "btn" type="button" onclick = "saveSpot()">Save Spot</button>
                 </div>
             </div>
         </div>
@@ -340,11 +363,94 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchComments();
+            fetchSpotInfo();
             document.getElementById('submit-review-btn').addEventListener('click', submitReview);
             document.getElementById('sort-select').addEventListener('change', applyFilters);
             document.getElementById('filter-select').addEventListener('change', applyFilters);
         });
+        
+        async function saveSpot(){
+        	
+            try {
+                const response = await fetch("/SavedStudySpots/add", {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
+                   // body: JSON.stringify(spotData),
+                });
 
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("Study spot saved successfully!");
+                    window.location.href = "/map.html";
+                } else {
+                    errorContainer.textContent = data.message || "Error saving study spot";
+                }
+                } catch (error) {
+                console.error("Error:", error);
+                errorContainer.textContent =
+                    "Unable to save spot. Please check your connection and try again.";
+                }
+        }
+
+      //check what the request format is for getting study spot by name or id
+        function fetchSpotInfo(){
+        /*	fetch(`${backendBaseUrl}/AllStudySpots/get/${spotId}`)
+        		.then(response => response.json())
+        		.then(data =>
+        		{
+        			currentStudySpot = data.map(spot => ({
+        	            spotId: spot.spotId,       
+        	            name: spot.name,           
+        	            location: spot.location,     
+        	            image: spot.image,         
+        	            position: {                 
+        	                lat: spot.latitude,
+        	                lng: spot.longitude
+        	            },
+        	            hours: spot.hours,       
+        	            tags:spot.tags               
+        	        }));
+        			updateSpotInfo(currentStudySpot);
+        		})
+        		.catch(error => console.error('Error fetching spot info:', error));
+        	*/
+        	updateSpotInfo();
+        		
+        }
+      
+        function updateSpotInfo(){
+            //function updateSpotInfo(info){
+            	console.log("hi");
+            	var spot;
+            	spot = {
+    	            spotId: 1,       
+    	            name: "spot name",           
+    	            location: "spot location",     
+    	            image: "https://i.imgur.com/HVYZgOC.jpeg",         
+    	            position: {                 
+    	                lat: 3,
+    	                lng: 3
+    	            },
+    	            hours:"spot hours",       
+    	            tags:"24/7,group rooms"              
+    	        };
+    			
+            	//info.forEach(spot => {
+                   	document.getElementById('spot-name').textContent = spot.name;
+                   	document.getElementById('spot-hours').textContent = spot.hours;
+                   	document.getElementById('spot-location').textContent = spot.location;
+                   	document.getElementById('spot-tags').innerHTML = "";
+                   	document.getElementById('spot-image').src = spot.image;
+                   	tagsList = spot.tags.split(",");
+                   	for(var a = 0; a <tagsList.length; a++){
+                   		document.getElementById('spot-tags').innerHTML += `<span class="characteristic">${tagsList[a]}</span>`;
+                   	}
+                  //  });
+            }
+            
         function fetchComments() {
             fetch(`${backendBaseUrl}/comments/spot/${spotId}`)
                 .then(response => response.json())
