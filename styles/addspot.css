@@ -162,3 +162,57 @@ form .form-row .input-data {
   color: #464647;
   line-height: 1.5;
 }
+
+/* Tag Container */
+.tag-data label {
+  position: relative;
+  font-weight: bold;
+  font-size: 17px;
+  color: #3a3a37;
+  margin-bottom: 0.5rem;
+}
+
+/* For the tags container layout */
+#tags {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center; 
+  padding: 1rem;
+}
+
+#tags label {
+  background-color: rgba(188, 185, 185, 0.753);
+  padding: 0.5rem 1rem;
+  border: 1px solid #d3d0d0;
+  border-radius: 20px; 
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+
+#tags label:hover {
+  background-color: #f0f2f5;
+  transform: scale(1.05);
+}
+
+
+#tags input {
+  display: none;
+}
+
+
+#tags input:checked + label {
+  background-color: #d6ae0f; 
+  color: white; 
+  border-color: #d6ae0f; 
+  transform: scale(1.1); 
+}
+
+/* Adjust spacing for form rows */
+.form-row {
+  margin-bottom: 1.5rem; 
+}

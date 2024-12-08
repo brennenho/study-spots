@@ -3,52 +3,53 @@ document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.querySelector("form.spot-submission");
     const spotNameInput = document.getElementById("spotname");
     const locationNameInput = document.getElementById("location");
-    const addressInput = document.getElementById("address");
+    const longitudeInput = document.getElementById("longitude");
+    const latitudeInput = document.getElementById("latitude");
     const hoursInput = document.getElementById("hours");
+    const imageInput = document.getElementById("image"); 
 
 
-    // Handle form submission
+    // Handle form submission 
     registerForm.addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent default form submission
 
-        const spotName = spotNameInput.value.trim();
-        const locationName = locationNameInput.value.trim();
-        const address = addressInput.value.trim();
-        const hours = hoursInput.value.trim();
+        // Collect selected tags
+        const selectedTags = Array.from(document.querySelectorAll("#tags input[type='checkbox']:checked"))
+            .map(checkbox => checkbox.value);
+
+        const spotData = {
+            name: spotNameInput.value.trim(),
+            location: locationNameInput.value.trim(),
+            latitude: parseFloat(latitudeInput.value.trim()),
+            longitude: parseFloat(longitudeInput.value.trim()),
+            hours: hoursInput.value.trim(),
+            image: imageInput ? imageInput.value.trim() : "../img/default-spot.jpg",
+            tags: selectedTags
+        };
+
+        console.log("Submitting spot data:", spotData); // Debug log
 
         try {
-            // Build the URL for the servlet 
-            const baseURL = window.location.origin;  // Get the base URL (e.g., http://localhost:8080)
-            const url = new URL("AddStudySpotServlet", baseURL); // Append the servlet path 
+        const response = await fetch("/api/studyspots/add", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(spotData),
+        });
 
-            // Prepare the data to send
-            const params = {
-                spotName,
-                locationName,
-                address,
-                hours
-            };
+        const data = await response.json();
 
-            // Send data to the server for validation
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(params),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                // Successful Submission
-                alert("Spot submitted successfully!");
-            } else {
-                // Display server-side validation errors
-                errorContainer.textContent = result.message || "An error occurred. Please try again.";
-            }
+        if (response.ok) {
+            alert("Study spot added successfully!");
+            window.location.href = "/map.html";
+        } else {
+            errorContainer.textContent = data.message || "Error adding study spot";
+        }
         } catch (error) {
-            errorContainer.textContent = "Unable to register. Please check your connection and try again.";
+        console.error("Error:", error);
+        errorContainer.textContent =
+            "Unable to add spot. Please check your connection and try again.";
         }
     });
 });
