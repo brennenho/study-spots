@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Study Spot Reviews</title>
-    <link rel="stylesheet" href="../styles/header.css">
     <style>
-        /* Reset and Fonts */
         * {
             margin: 0;
             padding: 0;
@@ -18,21 +16,61 @@
             color: #333;
         }
 
+        .main-header {
+            background-color: #B22222;
+            padding: 1rem;
+        }
+
+        .main-header nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .main-header .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .main-header .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .main-header .nav-links li {
+            display: inline-block;
+        }
+
+        .main-header .nav-links li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: background-color 0.2s;
+        }
+
+        .main-header .nav-links li a:hover,
+        .main-header .nav-links li a.active {
+            background-color: #FF6347;
+        }
+
         .review-container {
             max-width: 1000px;
-            margin: 7rem auto 2rem; 
+            margin: 2rem auto;
             padding: 0 1rem;
         }
 
         .spot-info {
-
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 2rem;
             margin-bottom: 2rem;
             padding: 1.5rem;
-            background-color: #001f3f; 
+            background-color: #B22222;
             color: white;
             border-radius: 12px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
@@ -65,13 +103,12 @@
         .rating-avg {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #ffdc00; /* Gold color */
+            color: #ffdc00;
         }
 
-        /* Buttons */
         .btn {
             display: inline-block;
-            background-color: #0074D9; /* Light navy */
+            background-color: #FF6347;
             color: white;
             padding: 0.8rem 1.5rem;
             border: none;
@@ -84,10 +121,9 @@
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 116, 217, 0.3);
+            box-shadow: 0 8px 15px rgba(255, 99, 71, 0.3);
         }
 
-        /* Review Form */
         #toggle-review-form {
             display: none;
         }
@@ -107,7 +143,7 @@
 
         .review-form h2 {
             margin-bottom: 1rem;
-            color: #001f3f;
+            color: #B22222;
         }
 
         .form-group {
@@ -141,7 +177,7 @@
         .star-rating label:hover,
         .star-rating label:hover ~ label,
         .star-rating input:checked ~ label {
-            color: #ffdc00; /* Gold color */
+            color: #ffdc00;
         }
 
         textarea {
@@ -154,7 +190,6 @@
             font-size: 1rem;
         }
 
-        /* Filter and Sort */
         .filter-sort {
             display: flex;
             flex-wrap: wrap;
@@ -177,7 +212,6 @@
             background-size: 1rem;
         }
 
-        /* Reviews List */
         .reviews-list {
             margin-top: 2rem;
         }
@@ -213,7 +247,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: #001f3f; /* Navy color */
+            background-color: #B22222;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -221,7 +255,7 @@
             font-weight: bold;
             font-size: 1.2rem;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0, 31, 63, 0.3);
+            box-shadow: 0 4px 10px rgba(178, 34, 34, 0.3);
         }
 
         .review-date {
@@ -230,7 +264,7 @@
         }
 
         .review-rating {
-            color: #ffdc00; /* Gold color */
+            color: #ffdc00;
             font-size: 1.5rem;
         }
 
@@ -240,7 +274,6 @@
             font-size: 1rem;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .spot-info {
                 flex-direction: column;
@@ -255,35 +288,31 @@
                 padding: 1rem;
             }
         }
-
     </style>
 </head>
 <body>
-    
     <header class="main-header">
         <nav>
-            <a href="../index.html" class="logo">USC Study Spots</a>
+            <a href="#" class="logo">USC Study Spots</a>
             <ul class="nav-links">
-                <li><a href="addspot.html" > Add Spot</a></li>
-                <li><a href="./map.html">Map</a></li>
-                <li><a href="./review_page.html" class="active"> Reviews</a></li>
-                <li><a href="./trending.html">Trending</a></li>
-                <li><a href="./login.html">Login</a></li>
+                <li><a href="#" class="active">Reviews</a></li>
+                <li><a href="#">Add Spot</a></li>
+                <li><a href="#">Map</a></li>
+                <li><a href="#">Trending</a></li>
+                <li><a href="#">Login</a></li>
             </ul>
         </nav>
     </header>
 
-
     <div class="review-container">
-        <!-- Study Spot Information -->
         <div class="spot-info">
             <img src="/api/placeholder/250/180" alt="Study Spot" class="spot-image">
             <div class="spot-details">
                 <h1>Leavey Library - 2nd Floor</h1>
                 <div class="spot-stats">
                     <div>
-                        <div class="rating-avg">4.5</div>
-                        <div>Based on 128 reviews</div>
+                        <div class="rating-avg" id="spot-rating-avg"></div>
+                        <div id="spot-based-on"></div>
                     </div>
                     <div>
                         <div>Noise Level</div>
@@ -297,86 +326,192 @@
             </div>
         </div>
 
-        <!-- Review Controls -->
         <input type="checkbox" id="toggle-review-form" hidden>
         <label for="toggle-review-form" class="btn">Write a Review</label>
         <div class="filter-sort">
-            <select>
-                <option>Sort by: Most Recent</option>
-                <option>Sort by: Highest Rating</option>
-                <option>Sort by: Lowest Rating</option>
+            <select id="sort-select">
+                <option value="recent">Sort by: Most Recent</option>
+                <option value="highest">Sort by: Highest Rating</option>
+                <option value="lowest">Sort by: Lowest Rating</option>
             </select>
-            <select>
-                <option>Filter by: All Ratings</option>
-                <option>Filter by: 5 Stars</option>
-                <option>Filter by: 4 Stars</option>
-                <option>Filter by: 3 Stars</option>
-                <option>Filter by: 2 Stars</option>
-                <option>Filter by: 1 Star</option>
+            <select id="filter-select">
+                <option value="all">Filter by: All Ratings</option>
+                <option value="5">Filter by: 5 Stars</option>
+                <option value="4">Filter by: 4 Stars</option>
+                <option value="3">Filter by: 3 Stars</option>
+                <option value="2">Filter by: 2 Stars</option>
+                <option value="1">Filter by: 1 Star</option>
             </select>
         </div>
 
-        <!-- Review Form -->
         <div class="review-form">
             <h2>Write Your Review</h2>
             <div class="form-group">
                 <label>Rating</label>
                 <div class="star-rating">
                     <input type="radio" id="star5" name="rating" value="5">
-                    <label for="star5" title="5 stars">★</label>
+                    <label for="star5">★</label>
                     <input type="radio" id="star4" name="rating" value="4">
-                    <label for="star4" title="4 stars">★</label>
+                    <label for="star4">★</label>
                     <input type="radio" id="star3" name="rating" value="3">
-                    <label for="star3" title="3 stars">★</label>
+                    <label for="star3">★</label>
                     <input type="radio" id="star2" name="rating" value="2">
-                    <label for="star2" title="2 stars">★</label>
+                    <label for="star2">★</label>
                     <input type="radio" id="star1" name="rating" value="1">
-                    <label for="star1" title="1 star">★</label>
+                    <label for="star1">★</label>
                 </div>
             </div>
             <div class="form-group">
                 <label>Your Review</label>
-                <textarea placeholder="Share your experience studying here..."></textarea>
+                <textarea id="review-description" placeholder="Share your experience studying here..."></textarea>
             </div>
-            <button class="btn">Submit Review</button>
+            <button class="btn" id="submit-review-btn">Submit Review</button>
         </div>
 
-        <!-- Reviews List -->
-        <div class="reviews-list">
-            <!-- Sample Review -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="reviewer-info">
-                        <div class="reviewer-avatar">JD</div>
-                        <div>
-                            <div>John Smith</div>
-                            <div class="review-date">March 15, 2024</div>
-                        </div>
-                    </div>
-                    <div class="review-rating">★★★★★</div>
-                </div>
-                <div class="review-text">
-                    Great study spot! Always quiet. Plenty of power outlets. Highly recommend for anyone looking for a focused study environment.
-                </div>
-            </div>
-
-            <!-- Another Sample Review -->
-            <div class="review-card">
-                <div class="review-header">
-                    <div class="reviewer-info">
-                        <div class="reviewer-avatar">AS</div>
-                        <div>
-                            <div>Rohan Patel</div>
-                            <div class="review-date">March 10, 2024</div>
-                        </div>
-                    </div>
-                    <div class="review-rating">★★★★</div>
-                </div>
-                <div class="review-text">
-                    Really good spot for group study sessions. The only downside is that it can get pretty crowded during finals week. 
-                                    </div>
-            </div>
-        </div>
+        <div class="reviews-list" id="reviews-list"></div>
     </div>
+
+    <script>
+        const backendBaseUrl = 'http://localhost:8080';
+        const spotId = 42;
+        const userId = 1;
+        let allComments = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchComments();
+            document.getElementById('submit-review-btn').addEventListener('click', submitReview);
+            document.getElementById('sort-select').addEventListener('change', applyFilters);
+            document.getElementById('filter-select').addEventListener('change', applyFilters);
+        });
+
+        function fetchComments() {
+            fetch(`${backendBaseUrl}/comments/spot/${spotId}`)
+                .then(response => response.json())
+                .then(comments => {
+                    allComments = comments;
+                    renderComments(allComments);
+                    updateSpotStats(allComments);
+                })
+                .catch(error => console.error('Error fetching comments:', error));
+        }
+
+        function updateSpotStats(comments) {
+            if (comments.length > 0) {
+                const avg = (comments.reduce((sum, c) => sum + c.rating, 0) / comments.length).toFixed(1);
+                document.getElementById('spot-rating-avg').textContent = avg;
+                document.getElementById('spot-based-on').textContent = `Based on ${comments.length} reviews`;
+            } else {
+                document.getElementById('spot-rating-avg').textContent = 'N/A';
+                document.getElementById('spot-based-on').textContent = 'No reviews yet';
+            }
+        }
+
+        function applyFilters() {
+            const sortValue = document.getElementById('sort-select').value;
+            const filterValue = document.getElementById('filter-select').value;
+            let filtered = [...allComments];
+            if (filterValue !== 'all') {
+                const starValue = parseInt(filterValue);
+                filtered = filtered.filter(c => c.rating === starValue);
+            }
+            if (sortValue === 'highest') {
+                filtered.sort((a,b) => b.rating - a.rating);
+            } else if (sortValue === 'lowest') {
+                filtered.sort((a,b) => a.rating - b.rating);
+            } else {
+                filtered.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+            }
+            renderComments(filtered);
+        }
+
+        function renderComments(comments) {
+            const reviewList = document.getElementById('reviews-list');
+            reviewList.innerHTML = '';
+            comments.forEach(comment => {
+                reviewList.appendChild(createReviewCard(comment));
+            });
+        }
+
+        function createReviewCard(comment) {
+            const card = document.createElement('div');
+            card.classList.add('review-card');
+
+            const header = document.createElement('div');
+            header.classList.add('review-header');
+
+            const reviewerInfo = document.createElement('div');
+            reviewerInfo.classList.add('reviewer-info');
+
+            const avatar = document.createElement('div');
+            avatar.classList.add('reviewer-avatar');
+            avatar.textContent = 'U';
+
+            const nameDateWrapper = document.createElement('div');
+            const reviewerName = document.createElement('div');
+            reviewerName.textContent = "User #" + comment.userId; 
+            const reviewDate = document.createElement('div');
+            reviewDate.classList.add('review-date');
+            reviewDate.textContent = formatDate(comment.timestamp);
+
+            nameDateWrapper.appendChild(reviewerName);
+            nameDateWrapper.appendChild(reviewDate);
+            reviewerInfo.appendChild(avatar);
+            reviewerInfo.appendChild(nameDateWrapper);
+
+            const rating = document.createElement('div');
+            rating.classList.add('review-rating');
+            rating.textContent = "★".repeat(comment.rating) + "☆".repeat(5 - comment.rating);
+
+            header.appendChild(reviewerInfo);
+            header.appendChild(rating);
+
+            const reviewText = document.createElement('div');
+            reviewText.classList.add('review-text');
+            reviewText.textContent = comment.description;
+
+            card.appendChild(header);
+            card.appendChild(reviewText);
+            return card;
+        }
+
+        function formatDate(timestamp) {
+            const dateObj = new Date(timestamp);
+            return dateObj.toLocaleString();
+        }
+
+        function submitReview(e) {
+            e.preventDefault();
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+            const description = document.getElementById('review-description').value.trim();
+            if (!ratingInput || !description) return;
+            const requestData = {
+                userId: userId,
+                postId: spotId,
+                title: "User Review",
+                description: description,
+                rating: parseInt(ratingInput.value)
+            };
+            fetch(`${backendBaseUrl}/comments/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => { throw data; });
+                }
+                return response.json();
+            })
+            .then(newComment => {
+                allComments.unshift(newComment);
+                renderComments(allComments);
+                updateSpotStats(allComments);
+                document.getElementById('review-description').value = "";
+                document.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
+                document.getElementById('toggle-review-form').checked = false;
+            })
+            .catch(error => console.error('Error adding comment:', error));
+        }
+    </script>
 </body>
 </html>
