@@ -169,36 +169,41 @@
     </div>
     <script>
         async function handleLogin() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = '';
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                errorMessage.textContent = 'Please enter a valid email address.';
-                return;
-            }
-            if (password.length < 7 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
-                errorMessage.textContent = 'Password must be at least 7 characters long and include uppercase, lowercase, and a number or special character.';
-                return;
-            }
-            const body = {
-                email: email,
-                password: password
-            }
-            const res = await fetch('http://localhost:8080/users/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            })
-            const result = await res.json()
-            if (result) {
-                alert('Login Successful!')
-                window.location.href = 'index.html'
-            } else {
-                errorMessage.textContent = 'Invalid email or password.'
-            }
-        }
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = '';
+    
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        errorMessage.textContent = 'Please enter a valid email address.';
+        return;
+    }
+    
+    if (password.length < 7 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
+        errorMessage.textContent = 'Password must be at least 7 characters long and include uppercase, lowercase, and a number or special character.';
+        return;
+    }
+    
+    const body = {
+        email: email,
+        password: password
+    }
+    
+    const res = await fetch('http://localhost:8080/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+    
+    const result = await res.json()
+    if (result) {
+        alert('Login Successful!')
+        window.location.href = 'about.html'  
+    } else {
+        errorMessage.textContent = 'Invalid email or password.'
+    }
+}
     </script>
 </body>
 </html>
