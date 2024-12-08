@@ -76,6 +76,10 @@ form .form-row .input-data {
   color: #3a3a37;
   transition: all 0.3s ease;
 }
+.inline-link {
+  color: inherit; /* Inherit the color from the parent element */
+  text-decoration: underline; /* Remove the underline */
+}
 
 .input-data input {
   display: block;
