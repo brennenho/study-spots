@@ -258,52 +258,81 @@
             strengthText.textContent = `Password strength: ${strengthLabel}`;
         }
         async function handleRegister() {
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = '';
-            if (!firstName || !lastName || !email || !password || !confirmPassword) {
-                errorMessage.textContent = 'Please fill in all fields.';
-                return;
-            }
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                errorMessage.textContent = 'Please enter a valid email address.';
-                return;
-            }
-            if (password.length < 8) {
-                errorMessage.textContent = 'Password must be at least 8 characters long.';
-                return;
-            }
-            if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
-                errorMessage.textContent = 'Password must include uppercase, lowercase, and a number or special character.';
-                return;
-            }
-            if (password !== confirmPassword) {
-                errorMessage.textContent = 'Passwords do not match.';
-                return;
-            }
-            const body = {
-                email: email,
-                password: password,
-                name: firstName + ' ' + lastName
-            }
-            const res = await fetch('http://localhost:8080/users/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            })
-            const result = await res.json()
-            if (result) {
-                alert('Registration Successful!')
-                window.location.href = 'login.html'
-            } else {
-                errorMessage.textContent = 'Registration failed. Email already exists.'
-            }
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const errorMessage = document.getElementById('error-message');
+    const registerButton = document.querySelector('.btn');
+
+    errorMessage.textContent = '';
+    registerButton.textContent = 'Creating Account...';
+    registerButton.disabled = true;
+
+    
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        errorMessage.textContent = 'Please fill in all fields.';
+        resetButtonState();
+        return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        errorMessage.textContent = 'Please enter a valid email address.';
+        resetButtonState();
+        return;
+    }
+    if (password.length < 8) {
+        errorMessage.textContent = 'Password must be at least 8 characters long.';
+        resetButtonState();
+        return;
+    }
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
+        errorMessage.textContent = 'Password must include uppercase, lowercase, and a number or special character.';
+        resetButtonState();
+        return;
+    }
+    if (password !== confirmPassword) {
+        errorMessage.textContent = 'Passwords do not match.';
+        resetButtonState();
+        return;
+    }
+
+    
+    const body = {
+        email: email,
+        password: password,
+        name: `${firstName} ${lastName}`
+    };
+
+    try {
+        const res = await fetch('http://localhost:8080/users/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        const result = await res.json(); // Expecting a boolean response
+
+        if (result) {
+            alert('Registration Successful!');
+            window.location.href = 'login.html';
+        } else {
+            errorMessage.textContent = 'Registration failed. Email already exists.';
         }
+    } catch (error) {
+        console.error('Registration error:', error);
+        errorMessage.textContent = 'An error occurred. Please try again later.';
+    } finally {
+        resetButtonState();
+    }
+
+    function resetButtonState() {
+        registerButton.textContent = 'Create Account';
+        registerButton.disabled = false;
+    }
+}
+
     </script>
 </body>
 </html>
