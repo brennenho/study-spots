@@ -357,15 +357,16 @@
 
     <script>
         const backendBaseUrl = 'http://localhost:8080';
-        const urlParams = new URLSearchParams(window.location.search);
-        const spotId =3;
+        
+        var spotId =1;
         const userId = 1;
         let allComments = [];
 
         document.addEventListener('DOMContentLoaded', () => {
+        var urlParams = new URLSearchParams(window.location.search);
         spotId = urlParams.get('spotid');
-        console.log(spotId);
-        console.log("hello");
+        console.log("spotid:" + spotId);
+
         fetchComments();
         fetchSpotInfo();
         document.getElementById('submit-review-btn').addEventListener('click', submitReview);
