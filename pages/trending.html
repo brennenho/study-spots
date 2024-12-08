@@ -3,60 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Trending Study Spots</title>
-    <link rel="stylesheet" href="../styles/header.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
 
         body {
-            margin: 0;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: #333;
             background-color: #f0f2f5;
+            color: #333;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .site-header {
-            background-color: #001f3f;
+        .main-header {
+            background-color: #B22222;
             padding: 1rem;
         }
 
-        .logo {
+        .main-header nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .main-header .logo {
             color: white;
             font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
         }
 
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-links {
+        .main-header .nav-links {
             list-style: none;
             display: flex;
-            gap: 1.5rem;
-            padding: 0;
-            margin: 0;
+            gap: 1rem;
         }
 
-        .nav-links a {
+        .main-header .nav-links li {
+            display: inline-block;
+        }
+
+        .main-header .nav-links li a {
             color: white;
             text-decoration: none;
-            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: background-color 0.2s;
         }
 
-        .nav-links a:hover {
-            text-decoration: underline;
+        .main-header .nav-links li a:hover,
+        .main-header .nav-links li a.active {
+            background-color: #FF6347;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
 
         .trending-section h2 {
             font-size: 1.5rem;
-            color: #001f3f;
-            margin-top: 5rem;
+            color: #B22222;
             margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
@@ -64,8 +73,7 @@
         }
 
         .refresh-button {
-            background-color: #0074D9;
-            
+            background-color: #FF6347;
             color: white;
             padding: 0.5rem 1rem;
             border: none;
@@ -75,10 +83,12 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .refresh-button:hover {
-            background-color: #0065bd;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255, 99, 71, 0.3);
         }
 
         .cards {
@@ -90,7 +100,7 @@
         .card {
             background-color: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
             padding: 1.5rem;
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
@@ -99,8 +109,8 @@
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
         }
 
         .card-content {
@@ -129,6 +139,7 @@
         .rating {
             display: flex;
             align-items: center;
+            color: #555;
         }
 
         .rating .star {
@@ -146,7 +157,7 @@
         }
 
         .primary-button {
-            background-color: #0074D9;
+            background-color: #FF6347;
             color: white;
             padding: 0.8rem 1.5rem;
             border: none;
@@ -158,7 +169,7 @@
         }
 
         .primary-button:hover {
-            box-shadow: 0 4px 12px rgba(0, 116, 217, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 99, 71, 0.3);
             transform: translateY(-2px);
         }
 
@@ -182,17 +193,6 @@
         }
 
         @media screen and (max-width: 480px) {
-            .navigation {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
             .trending-section h2 {
                 flex-direction: column;
                 gap: 1rem;
@@ -202,89 +202,114 @@
     </style>
 </head>
 <body>
-
     <header class="main-header">
         <nav>
-            <a href="../index.html" class="logo">USC Study Spots</a>
+            <a href="#" class="logo">USC Study Spots</a>
             <ul class="nav-links">
-                <li><a href="addspot.html"> Add Spot</a></li>
-                <li><a href="./map.html">Map</a></li>
-                <li><a href="./review_page.html">Reviews</a></li>
-                <li><a href="./trending.html" class = active>Trending</a></li>
-                <li><a href="./login.html">Login</a></li>
+                <li><a href="#">Map</a></li>
+                <li><a href="#">Add Spot</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#" class="active">Trending</a></li>
+                <li><a href="#">Login</a></li>
             </ul>
         </nav>
     </header>
 
-    
     <main class="container">
         <section class="trending-section">
             <h2>
                 Trending Study Spots
-                <button class="refresh-button">↻ Refresh</button>
+                <button class="refresh-button" id="refresh-button">↻ Refresh</button>
             </h2>
-            <div class="cards">
-                <div class="card">
-                    <div class="card-content">
-                        <h3>Doheny Memorial Library</h3>
-                        <p class="tags">
-                            <span>Quiet Space</span>
-                            <span>Individual Study</span>
-                        </p>
-                        <div class="rating">
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star">★</span>
-                            <span>(4.0)</span>
-                        </div>
-                    </div>
-                    <a href="#" class="primary-button">View Details</a>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <h3>Leavey Library</h3>
-                        <p class="tags">
-                            <span>Group Study</span>
-                            <span>24/7 Access</span>
-                        </p>
-                        <div class="rating">
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span>(3.5)</span>
-                        </div>
-                    </div>
-                    <a href="#" class="primary-button">View Details</a>
-                </div>
-
-                <div class="card">
-                    <div class="card-content">
-                        <h3>Hoose Library of Philosophy</h3>
-                        <p class="tags">
-                            <span>Silent Study</span>
-                            <span>Historic Building</span>
-                        </p>
-                        <div class="rating">
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span class="star active">★</span>
-                            <span>(5.0)</span>
-                        </div>
-                    </div>
-                    <a href="#" class="primary-button">View Details</a>
-                </div>
-            </div>
+            <div class="cards" id="cards-container"></div>
         </section>
     </main>
 
-    <footer class="site-footer">
-    </footer>
+    <footer class="site-footer"></footer>
+
+    <script>
+        const backendBaseUrl = 'http://localhost:8080';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTrending();
+            document.getElementById('refresh-button').addEventListener('click', refreshTrending);
+        });
+
+        function loadTrending() {
+            fetch(`${backendBaseUrl}/TrendingMetrics/returnCurrentTrending`)
+                .then(response => response.json())
+                .then(data => {
+                    renderTrending(data);
+                })
+                .catch(err => console.error('Error fetching trending data:', err));
+        }
+
+        function refreshTrending() {
+            fetch(`${backendBaseUrl}/TrendingMetrics/getNewTrending`)
+                .then(response => response.json())
+                .then(data => {
+                    renderTrending(data);
+                })
+                .catch(err => console.error('Error refreshing trending data:', err));
+        }
+
+        function renderTrending(trendingData) {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            trendingData.forEach(spot => {
+                const card = createCard(spot);
+                container.appendChild(card);
+            });
+        }
+
+        function createCard(spot) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const cardContent = document.createElement('div');
+            cardContent.classList.add('card-content');
+
+            const h3 = document.createElement('h3');
+            h3.textContent = "Spot #" + spot.spotId;
+            cardContent.appendChild(h3);
+
+            const tags = document.createElement('p');
+            tags.classList.add('tags');
+            // We have no direct tag data from the backend, 
+            // so just mark them as "Popular":
+            const tagSpan = document.createElement('span');
+            tagSpan.textContent = "Popular";
+            tags.appendChild(tagSpan);
+            cardContent.appendChild(tags);
+
+            const ratingDiv = document.createElement('div');
+            ratingDiv.classList.add('rating');
+            const ratingStars = Math.round(spot.averageRating);
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.classList.add('star');
+                if (i <= ratingStars) {
+                    star.classList.add('active');
+                }
+                star.textContent = '★';
+                ratingDiv.appendChild(star);
+            }
+
+            const ratingValue = document.createElement('span');
+            ratingValue.textContent = `(${spot.averageRating.toFixed(1)})`;
+            ratingDiv.appendChild(ratingValue);
+            cardContent.appendChild(ratingDiv);
+
+            card.appendChild(cardContent);
+
+            const detailsButton = document.createElement('a');
+            detailsButton.href = "#";
+            detailsButton.classList.add('primary-button');
+            detailsButton.textContent = "View Details";
+            card.appendChild(detailsButton);
+
+            return card;
+        }
+    </script>
 </body>
 </html>
