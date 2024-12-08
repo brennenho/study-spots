@@ -357,11 +357,15 @@
 
     <script>
         const backendBaseUrl = 'http://localhost:8080';
-        const spotId = 42;
+        const urlParams = new URLSearchParams(window.location.search);
+        const spotId =3;
         const userId = 1;
         let allComments = [];
 
         document.addEventListener('DOMContentLoaded', () => {
+        spotId = urlParams.get('spotid');
+        console.log(spotId);
+        console.log("hello");
         fetchComments();
         fetchSpotInfo();
         document.getElementById('submit-review-btn').addEventListener('click', submitReview);
@@ -450,14 +454,13 @@ async function saveSpot(){
                     headers: {
                     "Content-Type": "application/json",
                     },
-                   // body: JSON.stringify(spotData),
+                   	body: JSON.stringify(spotData),
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
                     alert("Study spot saved successfully!");
-                    window.location.href = "/map.html";
                 } else {
                     errorContainer.textContent = data.message || "Error saving study spot";
                 }
@@ -470,45 +473,28 @@ async function saveSpot(){
 
       //check what the request format is for getting study spot by name or id
         function fetchSpotInfo(){
-        /*	fetch(`${backendBaseUrl}/AllStudySpots/get/${spotId}`)
+        	fetch(`${backendBaseUrl}/api/studyspots/get/${spotId}`)
         		.then(response => response.json())
         		.then(data =>
         		{
-        			currentStudySpot = data.map(spot => ({
-        	            spotId: spot.spotId,       
-        	            name: spot.name,           
-        	            location: spot.location,     
-        	            image: spot.image,         
-        	            position: {                 
-        	                lat: spot.latitude,
-        	                lng: spot.longitude
-        	            },
-        	            hours: spot.hours,       
-        	            tags:spot.tags               
-        	        }));
-        			updateSpotInfo(currentStudySpot);
+        			updateSpotInfo(data);
         		})
         		.catch(error => console.error('Error fetching spot info:', error));
-        	*/
+        	
         	updateSpotInfo();
         		
         }
       
-        function updateSpotInfo(){
+        function updateSpotInfo(data){
             //function updateSpotInfo(info){
-            	console.log("hi");
+            	//console.log("hi");
             	var spot;
-            	spot = {
-    	            spotId: 1,       
-    	            name: "spot name",           
-    	            location: "spot location",     
-    	            image: "https://i.imgur.com/HVYZgOC.jpeg",         
-    	            position: {                 
-    	                lat: 3,
-    	                lng: 3
-    	            },
-    	            hours:"spot hours",       
-    	            tags:"24/7,group rooms"              
+            	spot = {       
+    	            name: data.name,           
+    	            location: data.location,     
+    	            image: data.image,         
+    	            hours:data.hours,       
+    	            tags:data.tags              
     	        };
     			
             	//info.forEach(spot => {
