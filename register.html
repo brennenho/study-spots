@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register - Study Spot Reviews</title>
     <style>
         * {
             margin: 0;
@@ -11,11 +11,13 @@
             box-sizing: border-box;
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
+
         body {
             background-color: #f0f2f5;
             color: #333;
             min-height: 100vh;
         }
+
         .nav-bar {
             background-color: #B22222;
             padding: 1rem 2rem;
@@ -25,6 +27,7 @@
             top: 0;
             z-index: 1000;
         }
+
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -32,25 +35,30 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .nav-brand {
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             gap: 1.5rem;
         }
+
         .nav-link {
             color: white;
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.2s;
         }
+
         .nav-link:hover {
             opacity: 0.8;
         }
+
         .main-content {
             padding-top: 5rem;
             display: flex;
@@ -58,9 +66,10 @@
             align-items: center;
             min-height: 100vh;
         }
-        .login-container {
+
+        .register-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
@@ -69,25 +78,36 @@
             transition: transform 0.2s, box-shadow 0.2s;
             margin: 1rem;
         }
-        .login-container:hover {
+
+        .register-container:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             font-size: 2rem;
             color: #B22222;
             margin-bottom: 1.5rem;
         }
+
         .form-group {
             margin-bottom: 1.5rem;
             text-align: left;
         }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
             color: #555;
         }
+
         .form-group input {
             width: 100%;
             padding: 0.8rem;
@@ -96,11 +116,13 @@
             border-radius: 8px;
             background-color: white;
         }
+
         .form-group input:focus {
             border-color: #B22222;
             outline: none;
             box-shadow: 0 0 4px rgba(178, 34, 34, 0.3);
         }
+
         .btn {
             width: 100%;
             padding: 0.8rem;
@@ -112,15 +134,18 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
+
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(255, 99, 71, 0.3);
         }
+
         .error-message {
             color: #B22222;
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
+
         .link {
             display: block;
             margin-top: 1rem;
@@ -129,26 +154,55 @@
             font-size: 0.9rem;
             transition: color 0.2s;
         }
+
         .link:hover {
             color: #FF6347;
             text-decoration: underline;
         }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .strength-meter {
+            height: 4px;
+            background-color: #eee;
+            border-radius: 2px;
+            margin-top: 0.25rem;
+        }
+
+        .strength-meter div {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
                 gap: 1rem;
             }
-            .login-container {
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .register-container {
                 padding: 1.5rem;
             }
+
             h1 {
                 font-size: 1.8rem;
             }
         }
+
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.5rem;
             }
+
             .btn {
                 padding: 1rem;
             }
@@ -161,59 +215,120 @@
             <a href="#" class="nav-brand">Study Spot Reviews</a>
             <div class="nav-links">
                 <a href="#" class="nav-link">Home</a>
-                <a href="register.html" class="nav-link">Register</a>
+                <a href="login.html" class="nav-link">Login</a>
             </div>
         </div>
     </nav>
+
     <div class="main-content">
-        <div class="login-container">
-            <h1>Login</h1>
+        <div class="register-container">
+            <h1>Create Account</h1>
             <div id="error-message" class="error-message"></div>
-            <form id="login-form">
+            <form id="register-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Enter your last name" required>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <input type="password" id="password" placeholder="Enter your password" required onkeyup="checkPasswordStrength(this.value)">
+                    <div class="password-strength">
+                        <div id="password-strength-text">Password strength: None</div>
+                        <div class="strength-meter">
+                            <div id="strength-meter-bar" style="width: 0%; background-color: #ddd;"></div>
+                        </div>
+                    </div>
                 </div>
-                <button type="button" class="btn" onclick="handleLogin()">Login</button>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="button" class="btn" onclick="handleRegister()">Create Account</button>
             </form>
-            <a href="register.html" class="link">Don't have an account? Register here</a>
+            <a href="login.html" class="link">Already have an account? Login here</a>
         </div>
     </div>
+
     <script>
-        async function handleLogin() {
+        function checkPasswordStrength(password) {
+            const strengthMeter = document.getElementById('strength-meter-bar');
+            const strengthText = document.getElementById('password-strength-text');
+            
+            let strength = 0;
+            let strengthLabel = '';
+            let color = '';
+
+            if (password.length >= 8) strength += 25;
+            if (password.match(/[A-Z]/)) strength += 25;
+            if (password.match(/[0-9]/)) strength += 25;
+            if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+
+            if (strength <= 25) {
+                strengthLabel = 'Weak';
+                color = '#ff4444';
+            } else if (strength <= 50) {
+                strengthLabel = 'Medium';
+                color = '#ffbb33';
+            } else if (strength <= 75) {
+                strengthLabel = 'Strong';
+                color = '#00C851';
+            } else {
+                strengthLabel = 'Very Strong';
+                color = '#007E33';
+            }
+
+            strengthMeter.style.width = strength + '%';
+            strengthMeter.style.backgroundColor = color;
+            strengthText.textContent = `Password strength: ${strengthLabel}`;
+        }
+
+        function handleRegister() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             const errorMessage = document.getElementById('error-message');
+
             errorMessage.textContent = '';
+
+            if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                errorMessage.textContent = 'Please fill in all fields.';
+                return;
+            }
+
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
                 errorMessage.textContent = 'Please enter a valid email address.';
                 return;
             }
-            if (password.length < 7 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
-                errorMessage.textContent = 'Password must be at least 7 characters long and include uppercase, lowercase, and a number or special character.';
+
+            if (password.length < 8) {
+                errorMessage.textContent = 'Password must be at least 8 characters long.';
                 return;
             }
-            const body = {
-                email: email,
-                password: password
+
+            if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
+                errorMessage.textContent = 'Password must include uppercase, lowercase, and a number or special character.';
+                return;
             }
-            const res = await fetch('http://localhost:8080/users/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            })
-            const result = await res.json()
-            if (result) {
-                alert('Login Successful!')
-                window.location.href = 'index.html'
-            } else {
-                errorMessage.textContent = 'Invalid email or password.'
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match.';
+                return;
             }
+
+            alert('Registration Successful!');
         }
     </script>
 </body>
