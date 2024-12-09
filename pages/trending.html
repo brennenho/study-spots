@@ -368,7 +368,7 @@ function updateNavigation() {
             card.appendChild(cardContent);
 
             const detailsButton = document.createElement('a');
-            detailsButton.href = "#";
+            detailsButton.href = "./review_page.html?spotid=" + spot.spotId;
             detailsButton.classList.add('primary-button');
             detailsButton.textContent = "View Details";
             card.appendChild(detailsButton);
