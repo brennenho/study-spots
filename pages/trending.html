@@ -324,10 +324,22 @@ function updateNavigation() {
             tags.classList.add('tags');
             // We have no direct tag data from the backend, 
             // so just mark them as "Popular":
-            const tagSpan = document.createElement('span');
-            tagSpan.textContent = "Popular";
-            tags.appendChild(tagSpan);
-            cardContent.appendChild(tags);
+
+            fetch(`${backendBaseUrl}/api/studyspots/getbyid/${spot.spotId}`)
+        		.then(response => response.json())
+        		.then(data =>
+        		{
+                    var tagsList = data.tags.split(",");
+
+                    for(var a = 0; a < tagsList.length; a++){
+                    const tagSpan = document.createElement('span');
+                    tagSpan.textContent = tagsList[a];
+                    tags.appendChild(tagSpan);
+
+                    }
+                    cardContent.appendChild(tags);
+                })
+        		.catch(error => console.error('Error fetching spot info:', error));
 
             const ratingDiv = document.createElement('div');
             ratingDiv.classList.add('rating');
