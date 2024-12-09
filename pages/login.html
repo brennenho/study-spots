@@ -207,7 +207,6 @@ function updateNavigation() {
         console.error('Error updating navigation:', error);
     }
 }
-
 async function handleLogin() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -235,9 +234,7 @@ async function handleLogin() {
         const success = await response.json();
 
         if (success) {
-            
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userEmail', email);
             alert('Login Successful!');
             window.location.href = '../index.html';
         } else {
