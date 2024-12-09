@@ -460,37 +460,43 @@ function updateNavigation() {
 }
 
 
-async function saveSpot(){
-	var currentDate = new Date();
-        	var savedSpot = {
-        		userId : currentUserId,
-        		spotId : spotId,
-        		date : currentDate.getDate()
-        		
-        	};
-			
-            try {
-                const response = await fetch("${backendBaseUrl}/SavedStudySpots/add", {
-                    method: "POST",
-                    headers: {
-                    "Content-Type": "application/json",
-                    },
-                   	body: JSON.stringify(savedSpot),
-                });
+async function saveSpot() {
+    const token = localStorage.getItem('userToken');
+    const userId = localStorage.getItem('userId');
+    
+    if (!token || !userId) {
+        alert('Please log in to save spots');
+        return;
+    }
 
-                const data = await response.json();
+    const currentDate = new Date();
+    const savedSpot = {
+        userId: parseInt(userId),
+        spotId: parseInt(spotId),
+        date: currentDate.toISOString()
+    };
+    
+    try {
+        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/add`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(savedSpot),
+        });
 
-                if (response.ok) {
-                    alert("Study spot saved successfully!");
-                } else {
-                    errorContainer.textContent = data.message || "Error saving study spot";
-                }
-                } catch (error) {
-                console.error("Error:", error);
-                errorContainer.textContent =
-                    "Unable to save spot. Please check your connection and try again.";
-                }
+        if (response.ok) {
+            alert("Study spot saved successfully!");
+        } else {
+            const data = await response.json();
+            alert(data.message || "Error saving study spot");
         }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Unable to save spot. Please check your connection and try again.");
+    }
+}
 
       //check what the request format is for getting study spot by name or id
        async function fetchSpotInfo(){
