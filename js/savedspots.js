@@ -1,22 +1,40 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("saved-spots-container");
 
-  async function fetchSavedSpots() {
+async function fetchSavedSpots() {
     const token = localStorage.getItem('userToken');
-    if (!token) {
+    const userId = localStorage.getItem('userId');
+    
+    if (!token || !userId) {
         window.location.href = './login.html';
         return [];
     }
 
     try {
-        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/userspecific`, {
+        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/user/${userId}`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         });
         
         if (!response.ok) throw new Error("Failed to fetch saved spots.");
-        return await response.json();
+        
+        const savedSpots = await response.json();
+        
+       
+        const spotDetails = await Promise.all(
+            savedSpots.map(async (savedSpot) => {
+                const spotResponse = await fetch(`${backendBaseUrl}/api/studyspots/getbyid/${savedSpot.spotId}`);
+                if (!spotResponse.ok) throw new Error(`Failed to fetch spot ${savedSpot.spotId}`);
+                const spot = await spotResponse.json();
+                return {
+                    ...spot,
+                    savedDate: savedSpot.date
+                };
+            })
+        );
+        
+        return spotDetails;
     } catch (error) {
         console.error("Error fetching saved spots:", error);
         container.innerHTML = "<p>Error loading saved spots. Please try again later.</p>";
@@ -28,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function createSpotCard(spot) {
     const card = document.createElement("div");
     card.className = "card";
-
+    
     const tags = spot.tags ? (Array.isArray(spot.tags) ? spot.tags : spot.tags.split(',')) : [];
     
     card.innerHTML = `
@@ -37,10 +55,13 @@ function createSpotCard(spot) {
             <h2 class="card-title">${spot.name || 'Unnamed Study Spot'}</h2>
             <p><strong>Location:</strong> ${spot.location || 'Location not specified'}</p>
             <p><strong>Hours:</strong> ${spot.hours || 'Hours not specified'}</p>
+            <p><strong>Saved on:</strong> ${new Date(spot.savedDate).toLocaleDateString()}</p>
             <div class="card-tags">
                 ${tags.map(tag => `<span class="characteristic">${tag.trim()}</span>`).join("")}
             </div>
-            <a href="review_page.html?spotid=${spot.id}" class="view-details">View Details</a>
+            <div class="card-actions">
+                <a href="review_page.html?spotid=${spot.id}" class="btn view-details">View Details</a>
+            </div>
         </div>
     `;
     return card;
