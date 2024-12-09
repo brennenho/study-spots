@@ -310,6 +310,14 @@ function updateNavigation() {
             h3.textContent = "Spot #" + spot.spotId;
             cardContent.appendChild(h3);
 
+            fetch(`${backendBaseUrl}/api/studyspots/getnamebyid/${spot.spotId}`)
+                .then(response => {
+						return response.text()
+					})
+                .then(name => {
+                    h3.textContent = name;
+                })
+
             const tags = document.createElement('p');
             tags.classList.add('tags');
             // We have no direct tag data from the backend, 
