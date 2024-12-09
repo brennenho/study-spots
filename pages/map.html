@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map - USC Study Spots</title>
-    <link rel="stylesheet" href="../styles/main.css">
-    <link rel="stylesheet" href="../styles/header.css">
-    <link rel="stylesheet" href="../styles/map.css">
-    <link rel="stylesheet" href="../styles/sidebar.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_j_06FKIElGzgMJrr-n2RbI3PfpR42vY"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map - USC Study Spots</title>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../styles/main.css" />
+  <link rel="stylesheet" href="../styles/header.css" />
+  <link rel="stylesheet" href="../styles/map.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+  <script src="../js/map.js"></script>    <!-- initMap calls fetchStudySpots -->
+  <!-- Load Google Maps last with callback -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_j_06FKIElGzgMJrr-n2RbI3PfpR42vY&libraries=marker&callback=initMap"
+    async
+    defer
+  ></script>
 </head>
 <body>
-    <header class="main-header">
-        <nav>
-            <a href="../index.html" class="logo">USC Study Spots</a>
-            <ul class="nav-links">
-                <li><a href="./addspot.html">Add Spot</a></li>
-                <li><a href="map.html" class="active">Map</a></li>
-                <li><a href="./review_page.html">Reviews</a></li>
-                <li><a href="./trending.html">Trending</a></li>
-                <li><a href="./login.html">Login</a></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- Header Section -->
+  <header class="main-header">
+    <nav>
+      <a href="../index.html" class="logo">USC Study Spots</a>
+      <ul class="nav-links">
+        <li><a href="./addspot.html">Add Spot</a></li>
+        <li><a href="map.html" class="active">Map</a></li>
+        <li><a href="./review_page.html">Reviews</a></li>
+        <li><a href="./trending.html">Trending</a></li>
+        <li><a href="./login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main class="main-content">
-        <div class="container">
-            <div id="sidebar" class="sidebar">
-                <div id="spot-details" class="hidden">
-                    <button id="close-sidebar">&times;</button>
-                    <div id="spot-content"></div>
-                </div>
-            </div>
-            <div id="map"></div>
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div id="spot-details" class="hidden">
+          <button id="close-sidebar">&times;</button>
+          <div id="spot-content"></div>
         </div>
-    </main>
+      </div>
+      
+      <!-- Map -->
+      <div id="map"></div>
+    </div>
+  </main>
 
-    <script src="../js/data.js"></script>
-    <script src="../js/map.js"></script>
-    <script src="../js/sidebar.js"></script>
+  <!-- JavaScript Files (order matters) -->
+  <script src="../js/data.js"></script>   <!-- fetchStudySpots is defined here -->
+
+  <script src="../js/sidebar.js"></script>
 </body>
 </html>
