@@ -462,14 +462,14 @@ function updateNavigation() {
 async function saveSpot(){
 	var currentDate = new Date();
         	var savedSpot = {
-        		userId : currentuserId,
+        		userId : currentUserId,
         		spotId : spotId,
         		date : currentDate.getDate()
         		
         	};
 			
             try {
-                const response = await fetch("/SavedStudySpots/add", {
+                const response = await fetch("${backendBaseUrl}/SavedStudySpots/add", {
                     method: "POST",
                     headers: {
                     "Content-Type": "application/json",
