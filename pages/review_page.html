@@ -608,7 +608,7 @@ async function saveSpot(){
 
             const rating = document.createElement('div');
             rating.classList.add('review-rating');
-            rating.textContent = "★".repeat(comment.rating) + "☆".repeat(5 - comment.rating);
+            rating.textContent = "★".repeat(comment.rating) + "☆".repeat(10 - comment.rating);
 
             header.appendChild(reviewerInfo);
             header.appendChild(rating);
