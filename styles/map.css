@@ -2,3 +2,27 @@
     flex: 1;
     height: 100%;
 }
+.custom-marker {
+  position: relative;
+  width: 30px;  
+  height: 30px;
+  cursor: pointer;
+}
+.marker-icon {
+  width: 100%;
+  height: 100%;
+  background-image: url('https://static.thenounproject.com/png/335079-200.png'); /* Replace with your marker icon path */
+  background-size: cover;
+}
+
+.bounce {
+  animation: bounce 0.75s;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-10px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
