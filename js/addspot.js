@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         alert("Study spot added successfully!");
-        window.location.href = "/pages/map.html";
+        window.location.href = "../pages/map.html";
       } else {
         errorContainer.textContent = data.message || "Error adding study spot";
       }
