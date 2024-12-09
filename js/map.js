@@ -129,7 +129,7 @@ function updateNavigation() {
         const commonLinks = [
             { href: 'pages/addspot.html', text: 'Add Spot' },
             { href: 'pages/map.html', text: 'Map' },
-            { href: 'pages/review_page.html', text: 'Reviews' },
+            { href: 'pages/review_page?spotid=1.html', text: 'Reviews' },
             { href: 'pages/trending.html', text: 'Trending' },
             { href: 'pages/login.html', text: 'Login' },
             { href: 'pages/register.html', text: 'Register' }
@@ -140,6 +140,7 @@ function updateNavigation() {
                 link.href !== 'pages/login.html' && 
                 link.href !== 'pages/register.html'
             ),
+            { href: 'pages/savedspots.html', text: 'Saved Spots' },
             { href: '#', text: 'Logout', id: 'logout-btn' }
         ];
 
