@@ -169,7 +169,46 @@
     </div>
     <script>
        
-       async function handleLogin() {
+  document.addEventListener('DOMContentLoaded', () => {
+    updateNavigation();
+});
+
+function updateNavigation() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const nav = document.querySelector('.nav-links');
+
+    if (!nav) {
+        console.error('Navigation menu not found');
+        return;
+    }
+
+    try {
+        nav.innerHTML = '';
+
+        const commonLinks = [
+            { href: '../index.html', text: 'Home' },
+            { href: 'register.html', text: 'Register' }
+        ];
+
+        const li1 = document.createElement('li');
+        const a1 = document.createElement('a');
+        a1.href = commonLinks[0].href;
+        a1.textContent = commonLinks[0].text;
+        li1.appendChild(a1);
+        nav.appendChild(li1);
+
+        const li2 = document.createElement('li');
+        const a2 = document.createElement('a');
+        a2.href = commonLinks[1].href;
+        a2.textContent = commonLinks[1].text;
+        li2.appendChild(a2);
+        nav.appendChild(li2);
+    } catch (error) {
+        console.error('Error updating navigation:', error);
+    }
+}
+
+async function handleLogin() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const errorMessage = document.getElementById('error-message');
@@ -187,15 +226,18 @@
     }
 
     try {
-        const res = await fetch('http://localhost:8080/users/login', {
+        const response = await fetch('http://localhost:8080/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
         });
 
-        const success = await res.json(); 
+        const success = await response.json();
 
         if (success) {
+            
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
             alert('Login Successful!');
             window.location.href = '../index.html';
         } else {
