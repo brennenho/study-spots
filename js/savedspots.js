@@ -11,7 +11,7 @@ async function fetchSavedSpots() {
     }
 
     try {
-        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/user/${userId}`, {
+        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/userspecific?user_id=${parseInt(userId)}`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -21,7 +21,6 @@ async function fetchSavedSpots() {
         
         const savedSpots = await response.json();
         
-       
         const spotDetails = await Promise.all(
             savedSpots.map(async (savedSpot) => {
                 const spotResponse = await fetch(`${backendBaseUrl}/api/studyspots/getbyid/${savedSpot.spotId}`);
@@ -41,7 +40,6 @@ async function fetchSavedSpots() {
         return [];
     }
 }
-
 
 function createSpotCard(spot) {
     const card = document.createElement("div");
