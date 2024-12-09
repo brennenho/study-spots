@@ -321,7 +321,7 @@ function updateNavigation() {
 
             const ratingDiv = document.createElement('div');
             ratingDiv.classList.add('rating');
-            const ratingStars = Math.round(Number(spot.averageRatings));
+            const ratingStars = Math.round(Number(spot.averageRating));
             for (let i = 1; i <= 5; i++) {
                 const star = document.createElement('span');
                 star.classList.add('star');
@@ -334,8 +334,8 @@ function updateNavigation() {
 
             const ratingValue = document.createElement('span');
             let ratingText;
-            if (spot.averageRatings !== undefined) {
-                ratingText = `(${spot.averageRatings.toFixed(1)})`;
+            if (spot.averageRating !== undefined) {
+                ratingText = `(${spot.averageRating.toFixed(1)})`;
           	} else {
 				ratingText = "No Ratings";
 			}
