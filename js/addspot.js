@@ -13,17 +13,20 @@ function updateNavigation() {
       const commonLinks = [
           { href: './addspot.html', text: 'Add Spot' },
           { href: './map.html', text: 'Map' },
-          { href: './review_page.html', text: 'Reviews' },
+          { href: './review_page?spotid=1.html', text: 'Reviews' },
           { href: './trending.html', text: 'Trending' },
           { href: './login.html', text: 'Login' },
           { href: './register.html', text: 'Register' }
       ];
 
-      const userLinks = [
-          ...commonLinks.filter(link => link.href !== './login.html' && link.href !== './register.html'),
-          { href: '#', text: 'Logout', id: 'logout-btn' }
-      ];
-
+     const userLinks = [
+    ...commonLinks.filter(link => 
+        link.href !== 'pages/login.html' && 
+        link.href !== 'pages/register.html'
+    ),
+    { href: 'pages/savedspots.html', text: 'Saved Spots' },  
+    { href: '#', text: 'Logout', id: 'logout-btn' }
+];
       const linksToRender = isLoggedIn ? userLinks : commonLinks;
 
       linksToRender.forEach(link => {
