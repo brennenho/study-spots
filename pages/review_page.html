@@ -469,14 +469,33 @@ async function saveSpot() {
         return;
     }
 
-    const currentDate = new Date();
     const savedSpot = {
         userId: parseInt(userId),
         spotId: parseInt(spotId),
-        date: currentDate.toISOString()
+        date: new Date().toISOString().split('T')[0] 
     };
     
     try {
+        
+        const checkResponse = await fetch(`${backendBaseUrl}/SavedStudySpots/exists`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                userId: savedSpot.userId,
+                spotId: savedSpot.spotId
+            })
+        });
+
+        const exists = await checkResponse.json();
+        
+        if (exists) {
+            alert("You've already saved this study spot!");
+            return;
+        }
+
         const response = await fetch(`${backendBaseUrl}/SavedStudySpots/add`, {
             method: "POST",
             headers: {
@@ -497,6 +516,7 @@ async function saveSpot() {
         alert("Unable to save spot. Please check your connection and try again.");
     }
 }
+
 
       //check what the request format is for getting study spot by name or id
        async function fetchSpotInfo(){
