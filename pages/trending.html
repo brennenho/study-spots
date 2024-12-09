@@ -300,6 +300,7 @@ function updateNavigation() {
         }
 
         function createCard(spot) {
+			
             const card = document.createElement('div');
             card.classList.add('card');
 
@@ -309,7 +310,7 @@ function updateNavigation() {
             const h3 = document.createElement('h3');
             h3.textContent = "Spot #" + spot.spotId;
             cardContent.appendChild(h3);
-
+			
             fetch(`${backendBaseUrl}/api/studyspots/getnamebyid/${spot.spotId}`)
                 .then(response => {
 						return response.text()
