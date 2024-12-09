@@ -26,3 +26,81 @@
             <div class="description-box">
                 <h1>Find Your Perfect Study Spot</h1>
                 <p>Discover and share the best study locations across USC campus. Whether you're looking for a quiet library corner, a buzzing café, or a peaceful outdoor space, we help students find their ideal place to study
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNavigation();
+        });
+
+        function updateNavigation() {
+            const isLoggedIn = localStorage.getItem('userToken') !== null;
+            const nav = document.querySelector('.nav-links');
+
+            if (!nav) {
+                console.error('Navigation menu not found');
+                return;
+            }
+
+            try {
+                nav.innerHTML = '';
+
+                const commonLinks = [
+                    { href: 'pages/addspot.html', text: 'Add Spot' },
+                    { href: 'pages/map.html', text: 'Map' },
+                    { href: 'pages/review_page.html', text: 'Reviews' },
+                    { href: 'pages/trending.html', text: 'Trending' },
+                    { href: 'pages/login.html', text: 'Login' },
+                    { href: 'pages/register.html', text: 'Register' }
+                ];
+
+                const userLinks = [
+                    ...commonLinks.filter(link => link.href !== 'pages/login.html' && link.href !== 'pages/register.html'),
+                    { href: '#', text: 'Logout', id: 'logout-btn' }
+                ];
+
+                const linksToRender = isLoggedIn ? userLinks : commonLinks;
+
+                linksToRender.forEach(link => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = link.href;
+                    a.textContent = link.text;
+
+                    if (window.location.pathname.endsWith(link.href.split('/').pop())) {
+                        a.classList.add('active');
+                    }
+
+                    if (link.id === 'logout-btn') {
+                        a.addEventListener('click', async (e) => {
+                            e.preventDefault();
+                            try {
+                                const response = await fetch('http://localhost:8080/users/logout', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+                                    }
+                                });
+
+                                if (response.ok) {
+                                    localStorage.removeItem('userToken');
+                                    localStorage.removeItem('userId');
+                                    window.location.href = './pages/login.html';
+                                } else {
+                                    alert('Logout failed. Please try again.');
+                                }
+                            } catch (error) {
+                                alert('Error during logout. Please try again.');
+                            }
+                        });
+                    }
+
+                    li.appendChild(a);
+                    nav.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error updating navigation:', error);
+            }
+        }
+    </script>
+</body>
+</html>
