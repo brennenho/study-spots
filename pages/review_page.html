@@ -359,14 +359,14 @@
         const backendBaseUrl = 'http://localhost:8080';
         
         var spotId =1;
-        const userId = 1;
+        const currentUserId = null;
         let allComments = [];
 
         document.addEventListener('DOMContentLoaded', () => {
         var urlParams = new URLSearchParams(window.location.search);
         spotId = urlParams.get('spotid');
         console.log("spotid:" + spotId);
-
+		updateButton();
         fetchComments();
         fetchSpotInfo();
         document.getElementById('submit-review-btn').addEventListener('click', submitReview);
@@ -374,6 +374,18 @@
         document.getElementById('filter-select').addEventListener('change', applyFilters);
         updateNavigation();
 });
+        
+function updateButton(){
+	
+	var saveButton = document.getElementById('save-button');
+	const isLoggedIn = localStorage.getItem('userToken') !== null;
+	if(isLoggedIn){
+		saveButton.style.display = "block";
+	}
+	else{
+		saveButton.style.display = "none";
+	}
+}
 
 function updateNavigation() {
     const isLoggedIn = localStorage.getItem('userToken') !== null;
@@ -448,14 +460,21 @@ function updateNavigation() {
 
 
 async function saveSpot(){
-        	
+	var currentDate = new Date();
+        	var savedSpot = {
+        		userId : currentuserId,
+        		spotId : spotId,
+        		date : currentDate.getDate()
+        		
+        	};
+			
             try {
                 const response = await fetch("/SavedStudySpots/add", {
                     method: "POST",
                     headers: {
                     "Content-Type": "application/json",
                     },
-                   	body: JSON.stringify(spotData),
+                   	body: JSON.stringify(savedSpot),
                 });
 
                 const data = await response.json();
@@ -613,7 +632,7 @@ async function saveSpot(){
             const description = document.getElementById('review-description').value.trim();
             if (!ratingInput || !description) return;
             const requestData = {
-                userId: userId,
+                userId: currentUserId,
                 postId: spotId,
                 title: "User Review",
                 description: description,
