@@ -332,7 +332,13 @@ function updateNavigation() {
             }
 
             const ratingValue = document.createElement('span');
-            ratingValue.textContent = `(${spot.averageRating.toFixed(1)})`;
+            let ratingText;
+            if (spot.averageRating !== undefined) {
+                ratingText = `(${spot.averageRating.toFixed(1)})`;
+          	} else {
+				ratingText = "No Ratings";
+			}
+            ratingValue.textContent = ratingText;
             ratingDiv.appendChild(ratingValue);
             cardContent.appendChild(ratingDiv);
 
