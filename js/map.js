@@ -42,31 +42,16 @@ function updateNavigation() {
           }
 
           // Add logout functionality
-          if (link.id === 'logout-btn') {
-              a.addEventListener('click', async (e) => {
-                  e.preventDefault();
-                  try {
-                      const response = await fetch('http://localhost:8080/users/logout', {
-                          method: 'POST',
-                          headers: {
-                              'Content-Type': 'application/json',
-                              'Authorization': `Bearer ${localStorage.getItem('userToken')}`
-                          }
-                      });
-
-                      if (response.ok) {
-                          localStorage.removeItem('userToken');
-                          localStorage.removeItem('userId');
-                          window.location.href = './login.html';
-                      } else {
-                          alert('Logout failed. Please try again.');
-                      }
-                  } catch (error) {
-                      alert('Error during logout. Please try again.');
-                      console.error('Logout Error:', error);
-                  }
-              });
-          }
+             if (link.id === 'logout-btn') {
+                        a.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            
+                            localStorage.removeItem('userToken');
+                            localStorage.removeItem('userId');
+                            
+                            window.location.href = '/pages/login.html';
+                        });
+                    }
 
           li.appendChild(a);
           nav.appendChild(li);
