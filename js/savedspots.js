@@ -1,35 +1,50 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("saved-spots-container");
 
-    async function fetchSavedSpots() {
-        try {
-            const response = await fetch("http://localhost:8080/SavedStudySpots/userspecific");
-            if (!response.ok) throw new Error("Failed to fetch saved spots.");
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching saved spots:", error);
-            container.innerHTML = "<p>Error loading saved spots. Please try again later.</p>";
-            return [];
-        }
+  async function fetchSavedSpots() {
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+        window.location.href = './login.html';
+        return [];
     }
 
-    function createSpotCard(spot) {
-        const card = document.createElement("div");
-        card.className = "card";
-    
-        card.innerHTML = `
-            <img src="${spot.image}" alt="${spot.name}">
-            <div class="card-content">
-                <h2 class="card-title">${spot.name}</h2>
-                <p><strong>Location:</strong> ${spot.location}</p>
-                <p><strong>Hours:</strong> ${spot.hours}</p>
-                <div class="card-tags">
-                    ${spot.tags.map(tag => `<span>${tag}</span>`).join("")}
-                </div>
-            </div>
-        `;
-        return card;
+    try {
+        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/userspecific`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) throw new Error("Failed to fetch saved spots.");
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching saved spots:", error);
+        container.innerHTML = "<p>Error loading saved spots. Please try again later.</p>";
+        return [];
     }
+}
+
+
+function createSpotCard(spot) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const tags = spot.tags ? (Array.isArray(spot.tags) ? spot.tags : spot.tags.split(',')) : [];
+    
+    card.innerHTML = `
+        <img src="${spot.image || '/api/placeholder/250/180'}" alt="${spot.name || 'Study Spot'}">
+        <div class="card-content">
+            <h2 class="card-title">${spot.name || 'Unnamed Study Spot'}</h2>
+            <p><strong>Location:</strong> ${spot.location || 'Location not specified'}</p>
+            <p><strong>Hours:</strong> ${spot.hours || 'Hours not specified'}</p>
+            <div class="card-tags">
+                ${tags.map(tag => `<span class="characteristic">${tag.trim()}</span>`).join("")}
+            </div>
+            <a href="review_page.html?spotid=${spot.id}" class="view-details">View Details</a>
+        </div>
+    `;
+    return card;
+}
 
     async function displaySavedSpots() {
         const spots = await fetchSavedSpots();
