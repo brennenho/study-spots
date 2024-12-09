@@ -59,7 +59,7 @@ function updateNavigation() {
         const commonLinks = [
             { href: './addspot.html', text: 'Add Spot' },
             { href: './map.html', text: 'Map' },
-            { href: './review_page.html', text: 'Reviews' },
+            { href: './review_page.html?spotid=1', text: 'Reviews' },
             { href: './trending.html', text: 'Trending' },
             { href: './login.html', text: 'Login' },
             { href: './register.html', text: 'Register' }
