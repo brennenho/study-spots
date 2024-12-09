@@ -356,35 +356,31 @@
     </div>
 
     <script>
-        const backendBaseUrl = 'http://localhost:8080';
-        
-        var spotId =1;
-        const currentUserId = null;
-        let allComments = [];
+const backendBaseUrl = 'http://localhost:8080';
+var spotId = 1;
+let allComments = [];
 
-        document.addEventListener('DOMContentLoaded', () => {
-        var urlParams = new URLSearchParams(window.location.search);
-        spotId = urlParams.get('spotid');
-        console.log("spotid:" + spotId);
-		updateButton();
-        fetchComments();
-        fetchSpotInfo();
-        document.getElementById('submit-review-btn').addEventListener('click', submitReview);
-        document.getElementById('sort-select').addEventListener('change', applyFilters);
-        document.getElementById('filter-select').addEventListener('change', applyFilters);
-        updateNavigation();
+document.addEventListener('DOMContentLoaded', () => {
+    var urlParams = new URLSearchParams(window.location.search);
+    spotId = urlParams.get('spotid');
+    console.log("spotid:" + spotId);
+    updateButton();
+    fetchComments();
+    fetchSpotInfo();
+    document.getElementById('submit-review-btn').addEventListener('click', submitReview);
+    document.getElementById('sort-select').addEventListener('change', applyFilters);
+    document.getElementById('filter-select').addEventListener('change', applyFilters);
+    updateNavigation();
 });
-        
-function updateButton(){
-	
-	var saveButton = document.getElementById('save-button');
-	const isLoggedIn = localStorage.getItem('userToken') !== null;
-	if(isLoggedIn){
-		saveButton.style.display = "block";
-	}
-	else{
-		saveButton.style.display = "none";
-	}
+
+function updateButton() {
+    var saveButton = document.getElementById('save-button');
+    const isLoggedIn = localStorage.getItem('userToken') !== null;
+    if (isLoggedIn) {
+        saveButton.style.display = "block";
+    } else {
+        saveButton.style.display = "none";
+    }
 }
 
 function updateNavigation() {
@@ -410,7 +406,7 @@ function updateNavigation() {
 
         const userLinks = [
             ...commonLinks.filter(link => link.href !== './login.html' && link.href !== './register.html'),
-		{ href: './savedspots.html', text: 'Saved Spots' },
+            { href: './savedspots.html', text: 'Saved Spots' },
             { href: '#', text: 'Logout', id: 'logout-btn' }
         ];
 
@@ -426,16 +422,14 @@ function updateNavigation() {
                 a.classList.add('active');
             }
 
-             if (link.id === 'logout-btn') {
-                        a.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            
-                            localStorage.removeItem('userToken');
-                            localStorage.removeItem('userId');
-                            
-                            window.location.href = '/pages/login.html';
-                        });
-                    }
+            if (link.id === 'logout-btn') {
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('userId');
+                    window.location.href = '/pages/login.html';
+                });
+            }
             li.appendChild(a);
             nav.appendChild(li);
         });
@@ -444,9 +438,9 @@ function updateNavigation() {
     }
 }
 
-sync function saveSpot() {
+async function saveSpot() {
     const token = localStorage.getItem('userToken');
-    const userId = localStorage.getItem('userId'); // This will be the email from login
+    const userId = localStorage.getItem('userId');
     
     if (!token || !userId) {
         alert('Please log in to save spots');
@@ -455,7 +449,7 @@ sync function saveSpot() {
 
     try {
         const formData = new URLSearchParams();
-        formData.append('user_id', userId); 
+        formData.append('user_id', userId);
         formData.append('spot_id', spotId);
 
         const response = await fetch(`${backendBaseUrl}/SavedStudySpots/add`, {
@@ -482,147 +476,139 @@ sync function saveSpot() {
     }
 }
 
+async function fetchSpotInfo() {
+    try {
+        const response = await fetch(`${backendBaseUrl}/api/studyspots/getbyid/${spotId}`);
+        const data = await response.json();
+        console.log(data);
+        updateSpotInfo(data);
+    } catch (error) {
+        console.error('Error fetching spot info:', error);
+    }
+}
 
-      //check what the request format is for getting study spot by name or id
-       async function fetchSpotInfo(){
-        	fetch(`${backendBaseUrl}/api/studyspots/getbyid/${spotId}`)
-        		.then(response => response.json())
-        		.then(data =>
-        		{
-        			console.log(data);
-        			updateSpotInfo(data);
-        		})
-        		.catch(error => console.error('Error fetching spot info:', error));
-        	
-        	//updateSpotInfo();
+function updateSpotInfo(data) {
+    console.log(data);
+    const spot = {
+        name: data.name,
+        location: data.location,
+        image: data.image,
+        hours: data.hours,
+        tags: data.tags
+    };
 
-        		
-        }
-      
-        function updateSpotInfo(data){
-            	console.log(data);
-            	var spot;
-            	spot = {       
-    	            name: data.name,           
-    	            location: data.location,     
-    	            image: data.image,         
-    	            hours:data.hours,       
-    	            tags:data.tags              
-    	        };
-    			
-            	//info.forEach(spot => {
-                   	document.getElementById('spot-name').textContent = spot.name;
-                   	document.getElementById('spot-hours').textContent = spot.hours;
-                   	document.getElementById('spot-location').textContent = spot.location;
-                   	document.getElementById('spot-tags').innerHTML = "";
-                   	document.getElementById('spot-image').src = spot.image;
-                   	tagsList = spot.tags.split(",");
-                   	for(var a = 0; a <tagsList.length; a++){
-                   		document.getElementById('spot-tags').innerHTML += `<span class="characteristic">${tagsList[a]}</span>`;
-                   	}
-                  //  });
-            }
-            
-        function fetchComments() {
-            fetch(`${backendBaseUrl}/comments/spot/${spotId}`)
-                .then(response => response.json())
-                .then(comments => {
-                    allComments = comments;
-                    renderComments(allComments);
-                    updateSpotStats(allComments);
-                })
-                .catch(error => console.error('Error fetching comments:', error));
-        }
+    document.getElementById('spot-name').textContent = spot.name;
+    document.getElementById('spot-hours').textContent = spot.hours;
+    document.getElementById('spot-location').textContent = spot.location;
+    document.getElementById('spot-tags').innerHTML = "";
+    document.getElementById('spot-image').src = spot.image;
+    const tagsList = spot.tags.split(",");
+    for (let tag of tagsList) {
+        document.getElementById('spot-tags').innerHTML += `<span class="characteristic">${tag}</span>`;
+    }
+}
 
-        function updateSpotStats(comments) {
-            if (comments.length > 0) {
-                const avg = (comments.reduce((sum, c) => sum + c.rating, 0) / comments.length).toFixed(1);
-                document.getElementById('spot-rating-avg').textContent = avg;
-                document.getElementById('spot-based-on').textContent = `Based on ${comments.length} reviews`;
-            } else {
-                document.getElementById('spot-rating-avg').textContent = 'N/A';
-                document.getElementById('spot-based-on').textContent = 'No reviews yet';
-            }
-        }
+function fetchComments() {
+    fetch(`${backendBaseUrl}/comments/spot/${spotId}`)
+        .then(response => response.json())
+        .then(comments => {
+            allComments = comments;
+            renderComments(allComments);
+            updateSpotStats(allComments);
+        })
+        .catch(error => console.error('Error fetching comments:', error));
+}
 
-        function applyFilters() {
-            const sortValue = document.getElementById('sort-select').value;
-            const filterValue = document.getElementById('filter-select').value;
-            let filtered = [...allComments];
-            if (filterValue !== 'all') {
-                const starValue = parseInt(filterValue);
-                filtered = filtered.filter(c => c.rating === starValue);
-            }
-            if (sortValue === 'highest') {
-                filtered.sort((a,b) => b.rating - a.rating);
-            } else if (sortValue === 'lowest') {
-                filtered.sort((a,b) => a.rating - b.rating);
-            } else {
-                filtered.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-            }
-            renderComments(filtered);
-        }
+function updateSpotStats(comments) {
+    if (comments.length > 0) {
+        const avg = (comments.reduce((sum, c) => sum + c.rating, 0) / comments.length / 2).toFixed(1);
+        document.getElementById('spot-rating-avg').textContent = avg;
+        document.getElementById('spot-based-on').textContent = `Based on ${comments.length} reviews`;
+    } else {
+        document.getElementById('spot-rating-avg').textContent = 'N/A';
+        document.getElementById('spot-based-on').textContent = 'No reviews yet';
+    }
+}
 
-        function renderComments(comments) {
-            const reviewList = document.getElementById('reviews-list');
-            reviewList.innerHTML = '';
-            comments.forEach(comment => {
-                reviewList.appendChild(createReviewCard(comment));
-            });
-        }
+function applyFilters() {
+    const sortValue = document.getElementById('sort-select').value;
+    const filterValue = document.getElementById('filter-select').value;
+    let filtered = [...allComments];
+    if (filterValue !== 'all') {
+        const starValue = parseInt(filterValue) * 2;
+        filtered = filtered.filter(c => c.rating === starValue);
+    }
+    if (sortValue === 'highest') {
+        filtered.sort((a, b) => b.rating - a.rating);
+    } else if (sortValue === 'lowest') {
+        filtered.sort((a, b) => a.rating - b.rating);
+    } else {
+        filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    }
+    renderComments(filtered);
+}
 
-        function createReviewCard(comment) {
-            const card = document.createElement('div');
-            card.classList.add('review-card');
+function renderComments(comments) {
+    const reviewList = document.getElementById('reviews-list');
+    reviewList.innerHTML = '';
+    comments.forEach(comment => {
+        reviewList.appendChild(createReviewCard(comment));
+    });
+}
 
-            const header = document.createElement('div');
-            header.classList.add('review-header');
+function createReviewCard(comment) {
+    const card = document.createElement('div');
+    card.classList.add('review-card');
 
-            const reviewerInfo = document.createElement('div');
-            reviewerInfo.classList.add('reviewer-info');
+    const header = document.createElement('div');
+    header.classList.add('review-header');
 
-            const avatar = document.createElement('div');
-            avatar.classList.add('reviewer-avatar');
-            avatar.textContent = 'U';
+    const reviewerInfo = document.createElement('div');
+    reviewerInfo.classList.add('reviewer-info');
 
-            const nameDateWrapper = document.createElement('div');
-            const reviewerName = document.createElement('div');
-            reviewerName.textContent = "User #" + comment.userId; 
-            const reviewDate = document.createElement('div');
-            reviewDate.classList.add('review-date');
-            reviewDate.textContent = formatDate(comment.timestamp);
+    const avatar = document.createElement('div');
+    avatar.classList.add('reviewer-avatar');
+    avatar.textContent = 'U';
 
-            nameDateWrapper.appendChild(reviewerName);
-            nameDateWrapper.appendChild(reviewDate);
-            reviewerInfo.appendChild(avatar);
-            reviewerInfo.appendChild(nameDateWrapper);
+    const nameDateWrapper = document.createElement('div');
+    const reviewerName = document.createElement('div');
+    reviewerName.textContent = "User #" + comment.userId;
+    const reviewDate = document.createElement('div');
+    reviewDate.classList.add('review-date');
+    reviewDate.textContent = formatDate(comment.timestamp);
 
-            const rating = document.createElement('div');
-            rating.classList.add('review-rating');
-            rating.textContent = "★".repeat(comment.rating) + "☆".repeat(10 - comment.rating);
+    nameDateWrapper.appendChild(reviewerName);
+    nameDateWrapper.appendChild(reviewDate);
+    reviewerInfo.appendChild(avatar);
+    reviewerInfo.appendChild(nameDateWrapper);
 
-            header.appendChild(reviewerInfo);
-            header.appendChild(rating);
+    const rating = document.createElement('div');
+    rating.classList.add('review-rating');
+    const starRating = Math.round(comment.rating / 2);
+    rating.textContent = "★".repeat(starRating) + "☆".repeat(5 - starRating);
 
-            const reviewText = document.createElement('div');
-            reviewText.classList.add('review-text');
-            reviewText.textContent = comment.description;
+    header.appendChild(reviewerInfo);
+    header.appendChild(rating);
 
-            card.appendChild(header);
-            card.appendChild(reviewText);
-            return card;
-        }
+    const reviewText = document.createElement('div');
+    reviewText.classList.add('review-text');
+    reviewText.textContent = comment.description;
 
-        function formatDate(timestamp) {
-            const dateObj = new Date(timestamp);
-            return dateObj.toLocaleString();
-        }
+    card.appendChild(header);
+    card.appendChild(reviewText);
+    return card;
+}
 
-      function submitReview(e) {
+function formatDate(timestamp) {
+    const dateObj = new Date(timestamp);
+    return dateObj.toLocaleString();
+}
+
+async function submitReview(e) {
     e.preventDefault();
     
     const token = localStorage.getItem('userToken');
-    const userId = localStorage.getItem('userId'); // This will be the email from login functionality
+    const userId = localStorage.getItem('userId');
     
     if (!token || !userId) {
         alert('Please log in to submit a review');
@@ -637,46 +623,48 @@ sync function saveSpot() {
         return;
     }
 
-   
     const rating = parseInt(ratingInput.value) * 2;
 
     const requestData = {
-        userId: userId, 
+        userId: userId,
         postId: parseInt(spotId),
         title: "User Review",
         description: description,
         rating: rating
     };
 
-    fetch(`${backendBaseUrl}/comments/add`, {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(requestData)
-    })
-    .then(response => {
+    try {
+        const response = await fetch(`${backendBaseUrl}/comments/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(requestData)
+        });
+
         if (!response.ok) {
-            return response.json().then(data => { throw data; });
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error submitting review');
         }
-        return response.json();
-    })
-    .then(newComment => {
-       
+
+        const newComment = await response.json();
         newComment.rating = Math.round(newComment.rating / 2);
         allComments.unshift(newComment);
         renderComments(allComments);
         updateSpotStats(allComments);
+        
+        
         document.getElementById('review-description').value = "";
         document.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
         document.getElementById('toggle-review-form').checked = false;
-    })
-    .catch(error => {
+        
+        alert('Review submitted successfully!');
+    } catch (error) {
         console.error('Error adding comment:', error);
         alert(error.message || 'Error submitting review. Please try again.');
-    });
+    }
 }
-    </script>
+        </script>
 </body>
 </html>
