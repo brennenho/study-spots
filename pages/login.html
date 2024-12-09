@@ -212,29 +212,27 @@ async function handleLogin() {
     const password = document.getElementById('password').value;
     const errorMessage = document.getElementById('error-message');
     errorMessage.textContent = '';
-
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
         errorMessage.textContent = 'Please enter a valid email address.';
         return;
     }
-
     if (password.length < 7 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9!@#$%^&*]/.test(password)) {
         errorMessage.textContent = 'Password must be at least 7 characters long and include uppercase, lowercase, and a number or special character.';
         return;
     }
-
     try {
         const response = await fetch('http://localhost:8080/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
         });
-
         const success = await response.json();
-
         if (success) {
-            localStorage.setItem('isLoggedIn', 'true');
+            // Generate a simple token since backend doesn't provide one
+            const simpleToken = btoa(email + ':' + Date.now());
+            localStorage.setItem('userToken', simpleToken);
+            localStorage.setItem('userId', email); 
             alert('Login Successful!');
             window.location.href = '../index.html';
         } else {
