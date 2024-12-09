@@ -24,7 +24,7 @@ function updateNavigation() {
               link.href !== './login.html' && 
               link.href !== './register.html'
           ),
-          { href: './pages/savedspots.html', text: 'Saved Spots' },  
+          { href: './savedspots.html', text: 'Saved Spots' },  
           { href: '#', text: 'Logout', id: 'logout-btn' }
       ];
 
