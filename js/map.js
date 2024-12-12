@@ -24,7 +24,7 @@ function updateNavigation() {
         (link) =>
           link.href !== "./login.html" && link.href !== "./register.html",
       ),
-      { href: "./pages/savedspots.html", text: "Saved Spots" },
+      { href: "./savedspots.html", text: "Saved Spots" },
       { href: "#", text: "Logout", id: "logout-btn" },
     ];
 
@@ -69,23 +69,16 @@ let markers = [];
 /**
  * Initialize the Google Map.
  */
-window.initMap = function () {
+window.initMap = async function () {
   console.log("initMap called"); // For debugging purposes
 
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 34.0224, lng: -118.2851 }, // USC coordinates
-    zoom: 15,
+  const { Map } = await google.maps.importLibrary("maps");
+  map = new Map(document.getElementById("map"), {
+    zoom: 1,
     mapId: "f9624ecfd26562d1",
-    styles: [
-      {
-        featureType: "poi.school",
-        elementType: "labels",
-        stylers: [{ visibility: "on" }],
-      },
-    ],
   });
 
-  fetchStudySpots(); // Call to fetch and create markers
+  fetchStudySpots();
 };
 
 /**
