@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>USC Study Spots - All Locations</title>
+    <link rel="stylesheet" href="../styles/spots_list.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <nav>
+        <a href="../index.html" class="logo">USC Study Spots</a>
+        <ul class="nav-links">
+          <li><a href="./addspot.html">Add Spot</a></li>
+          <li><a href="./map.html">Map</a></li>
+          <li><a href="./spots_list.html" class="active">Reviews</a></li>
+          <li><a href="./trending.html">Trending</a></li>
+          <li><a href="./login.html">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="spots-container">
+      <div class="sort-controls">
+        <select id="sortSelect">
+          <option value="id">Sort by ID</option>
+          <option value="nameAsc">Sort by Name (A-Z)</option>
+          <option value="nameDesc">Sort by Name (Z-A)</option>
+        </select>
+      </div>
+      <div class="spots-grid" id="spotsGrid"></div>
+    </div>
+  </body>
+  <script src="../js/spots_list.js"></script>
+</html>

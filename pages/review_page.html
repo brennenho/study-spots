@@ -1,670 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Study Spot Reviews</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        body {
-            background-color: #f0f2f5;
-            color: #333;
-        }
-
-        .review-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            margin-top: 100px;
-        }
-
-        .spot-info {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background-color: #B22222;
-            color: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .spot-image {
-            width: 250px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 4px solid white;
-        }
-
-        .spot-details h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .spot-stats {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .spot-stats div {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .rating-avg {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ffdc00;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #FF6347;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 1rem 0;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(255, 99, 71, 0.3);
-        }
-
-        #toggle-review-form {
-            display: none;
-        }
-
-        #toggle-review-form:checked ~ .review-form {
-            display: block;
-        }
-
-        .review-form {
-            display: none;
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .review-form h2 {
-            margin-bottom: 1rem;
-            color: #B22222;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .star-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            font-size: 2rem;
-        }
-
-        .star-rating input {
-            display: none;
-        }
-
-        .star-rating label {
-            color: #ccc;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .star-rating label:hover,
-        .star-rating label:hover ~ label,
-        .star-rating input:checked ~ label {
-            color: #ffdc00;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            resize: vertical;
-            font-size: 1rem;
-        }
-
-        .filter-sort {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .filter-sort select {
-            padding: 0.6rem;
-            border: 1px solid #ccc;
-            border-radius: 30px;
-            background-color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            outline: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23333"><path d="M4 6l4 4 4-4H4z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 0.7rem center;
-            background-size: 1rem;
-        }
-
-        .reviews-list {
-            margin-top: 2rem;
-        }
-
-        .review-card {
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .review-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .reviewer-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .reviewer-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #B22222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(178, 34, 34, 0.3);
-        }
-
-        .review-date {
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        .review-rating {
-            color: #ffdc00;
-            font-size: 1.5rem;
-        }
-
-        .review-text {
-            color: #555;
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-        
-         .spot-tags {
-		    display: flex;
-		    flex-wrap: wrap;
-		    gap: 10px;
-		    margin-bottom: 20px;
-		    color: #555;
-		}
-		
-		.characteristic {
-		    background: #f0f0f0;
-		    padding: 5px 10px;
-		    border-radius: 15px;
-		    font-size: 14px;
-		}
-
-        @media (max-width: 768px) {
-            .spot-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .spot-stats {
-                justify-content: center;
-            }
-
-            .review-card {
-                padding: 1rem;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="../styles/header.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../styles/review_page.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+  </head>
+  <body>
     <header class="main-header">
-        <nav>
-            <a href="../index.html" class="logo">USC Study Spots</a>
-            <ul class="nav-links">
-                <li><a href="./addspot.html">Add Spot</a></li>
-                <li><a href="./map.html">Map</a></li>
-                <li><a href="./review_page.html?spotid=1" class="active">Reviews</a></li>
-                <li><a href="./trending.html">Trending</a></li>
-                <li><a href="./login.html">Login</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <a href="../index.html" class="logo">USC Study Spots</a>
+        <ul class="nav-links">
+          <li><a href="./addspot.html">Add Spot</a></li>
+          <li><a href="./map.html">Map</a></li>
+          <li
+            ><a href="./review_page.html?spotid=1" class="active"
+              >Reviews</a
+            ></li
+          >
+          <li><a href="./trending.html">Trending</a></li>
+          <li><a href="./login.html">Login</a></li>
+        </ul>
+      </nav>
     </header>
 
     <div class="review-container">
-        <div class="spot-info">
-            <img src="/api/placeholder/250/180" alt="Study Spot" class="spot-image" id="spot-image">
-            <div class="spot-details">
-                <h1 id="spot-name">Leavey Library - 2nd Floor</h1>
-                <div class="spot-stats">
-                    <div>
-                        <div class="rating-avg" id="spot-rating-avg"></div>
-                        <div id="spot-based-on"></div>
-                    </div>
-                    <div>
-                        <div>Hours</div>
-                        <div id = "spot-hours"></div>
-                    </div>
-                    <div>
-                        <div>Location</div>
-                        <div id = "spot-location"></div>
-                    </div>
-                </div>
-                <br>
-                <div>
-                	<br>
-                	<div class= "spot-tags" id = "spot-tags"></div>
-                </div>
-                <div>
-                	<button id = "save-button" class = "btn" type="button" onclick = "saveSpot()">Save Spot</button>
-                </div>
+      <div class="spot-info">
+        <img
+          src="/img/default-spot.jpg"
+          alt="Study Spot"
+          class="spot-image"
+          id="spot-image"
+        />
+        <div class="spot-details">
+          <h1 id="spot-name">Leavey Library - 2nd Floor</h1>
+          <div class="spot-stats">
+            <div>
+              <div class="rating-avg" id="spot-rating-avg"></div>
+              <div id="spot-based-on"></div>
             </div>
-        </div>
-
-        <input type="checkbox" id="toggle-review-form" hidden>
-        <label for="toggle-review-form" class="btn">Write a Review</label>
-        <div class="filter-sort">
-            <select id="sort-select">
-                <option value="recent">Sort by: Most Recent</option>
-                <option value="highest">Sort by: Highest Rating</option>
-                <option value="lowest">Sort by: Lowest Rating</option>
-            </select>
-            <select id="filter-select">
-                <option value="all">Filter by: All Ratings</option>
-                <option value="5">Filter by: 5 Stars</option>
-                <option value="4">Filter by: 4 Stars</option>
-                <option value="3">Filter by: 3 Stars</option>
-                <option value="2">Filter by: 2 Stars</option>
-                <option value="1">Filter by: 1 Star</option>
-            </select>
-        </div>
-
-        <div class="review-form">
-            <h2>Write Your Review</h2>
-            <div class="form-group">
-                <label>Rating</label>
-                <div class="star-rating">
-                    <input type="radio" id="star5" name="rating" value="5">
-                    <label for="star5">★</label>
-                    <input type="radio" id="star4" name="rating" value="4">
-                    <label for="star4">★</label>
-                    <input type="radio" id="star3" name="rating" value="3">
-                    <label for="star3">★</label>
-                    <input type="radio" id="star2" name="rating" value="2">
-                    <label for="star2">★</label>
-                    <input type="radio" id="star1" name="rating" value="1">
-                    <label for="star1">★</label>
-                </div>
+            <div>
+              <div>Hours</div>
+              <div id="spot-hours"></div>
             </div>
-            <div class="form-group">
-                <label>Your Review</label>
-                <textarea id="review-description" placeholder="Share your experience studying here..."></textarea>
+            <div>
+              <div>Location</div>
+              <div id="spot-location"></div>
             </div>
-            <button class="btn" id="submit-review-btn">Submit Review</button>
+          </div>
+          <br />
+          <div>
+            <br />
+            <div class="spot-tags" id="spot-tags"></div>
+          </div>
+          <div>
+            <button
+              id="save-button"
+              class="btn"
+              type="button"
+              onclick="saveSpot()"
+              >Save Spot</button
+            >
+          </div>
         </div>
+      </div>
 
-        <div class="reviews-list" id="reviews-list"></div>
+      <input type="checkbox" id="toggle-review-form" hidden />
+      <label for="toggle-review-form" class="btn">Write a Review</label>
+      <div class="filter-sort">
+        <select id="sort-select">
+          <option value="recent">Sort by: Most Recent</option>
+          <option value="highest">Sort by: Highest Rating</option>
+          <option value="lowest">Sort by: Lowest Rating</option>
+        </select>
+        <select id="filter-select">
+          <option value="all">Filter by: All Ratings</option>
+          <option value="5">Filter by: 5 Stars</option>
+          <option value="4">Filter by: 4 Stars</option>
+          <option value="3">Filter by: 3 Stars</option>
+          <option value="2">Filter by: 2 Stars</option>
+          <option value="1">Filter by: 1 Star</option>
+        </select>
+      </div>
+
+      <div class="review-form">
+        <h2>Write Your Review</h2>
+        <div class="form-group">
+          <label>Rating</label>
+          <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5" />
+            <label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4" />
+            <label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3" />
+            <label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2" />
+            <label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1" />
+            <label for="star1">★</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Your Review</label>
+          <textarea
+            id="review-description"
+            placeholder="Share your experience studying here..."
+          ></textarea>
+        </div>
+        <button class="btn" id="submit-review-btn">Submit Review</button>
+      </div>
+
+      <div class="reviews-list" id="reviews-list"></div>
     </div>
-
-    <script>
-const backendBaseUrl = 'http://localhost:8080';
-var spotId = 1;
-let allComments = [];
-
-document.addEventListener('DOMContentLoaded', () => {
-    var urlParams = new URLSearchParams(window.location.search);
-    spotId = urlParams.get('spotid');
-    console.log("spotid:" + spotId);
-    updateButton();
-    fetchComments();
-    fetchSpotInfo();
-    document.getElementById('submit-review-btn').addEventListener('click', submitReview);
-    document.getElementById('sort-select').addEventListener('change', applyFilters);
-    document.getElementById('filter-select').addEventListener('change', applyFilters);
-    updateNavigation();
-});
-
-function updateButton() {
-    var saveButton = document.getElementById('save-button');
-    const isLoggedIn = localStorage.getItem('userToken') !== null;
-    if (isLoggedIn) {
-        saveButton.style.display = "block";
-    } else {
-        saveButton.style.display = "none";
-    }
-}
-
-function updateNavigation() {
-    const isLoggedIn = localStorage.getItem('userToken') !== null;
-    const nav = document.querySelector('.nav-links');
-
-    if (!nav) {
-        console.error('Navigation menu not found');
-        return;
-    }
-
-    try {
-        nav.innerHTML = '';
-
-        const commonLinks = [
-            { href: './addspot.html', text: 'Add Spot' },
-            { href: './map.html', text: 'Map' },
-            { href: './review_page.html?spotid=1', text: 'Reviews' },
-            { href: './trending.html', text: 'Trending' },
-            { href: './login.html', text: 'Login' },
-            { href: './register.html', text: 'Register' }
-        ];
-
-        const userLinks = [
-            ...commonLinks.filter(link => link.href !== './login.html' && link.href !== './register.html'),
-            { href: './savedspots.html', text: 'Saved Spots' },
-            { href: '#', text: 'Logout', id: 'logout-btn' }
-        ];
-
-        const linksToRender = isLoggedIn ? userLinks : commonLinks;
-
-        linksToRender.forEach(link => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = link.href;
-            a.textContent = link.text;
-
-            if (window.location.pathname.endsWith(link.href.split('/').pop())) {
-                a.classList.add('active');
-            }
-
-            if (link.id === 'logout-btn') {
-                a.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('userId');
-                    window.location.href = '/pages/login.html';
-                });
-            }
-            li.appendChild(a);
-            nav.appendChild(li);
-        });
-    } catch (error) {
-        console.error('Error updating navigation:', error);
-    }
-}
-
-async function saveSpot() {
-    const token = localStorage.getItem('userToken');
-    const userId = localStorage.getItem('userId');
-    
-    if (!token || !userId) {
-        alert('Please log in to save spots');
-        return;
-    }
-
-    try {
-        const formData = new URLSearchParams();
-        formData.append('user_id', userId);
-        formData.append('spot_id', spotId);
-
-        const response = await fetch(`${backendBaseUrl}/SavedStudySpots/add`, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: formData
-        });
-
-        const result = await response.text();
-        
-        if (result === "Already Saved") {
-            alert("You've already saved this study spot!");
-        } else if (result === "Saved") {
-            alert("Study spot saved successfully!");
-        } else {
-            alert("Error saving study spot");
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Unable to save spot. Please check your connection and try again.");
-    }
-}
-
-async function fetchSpotInfo() {
-    try {
-        const response = await fetch(`${backendBaseUrl}/api/studyspots/getbyid/${spotId}`);
-        const data = await response.json();
-        console.log(data);
-        updateSpotInfo(data);
-    } catch (error) {
-        console.error('Error fetching spot info:', error);
-    }
-}
-
-function updateSpotInfo(data) {
-    console.log(data);
-    const spot = {
-        name: data.name,
-        location: data.location,
-        image: data.image,
-        hours: data.hours,
-        tags: data.tags
-    };
-
-    document.getElementById('spot-name').textContent = spot.name;
-    document.getElementById('spot-hours').textContent = spot.hours;
-    document.getElementById('spot-location').textContent = spot.location;
-    document.getElementById('spot-tags').innerHTML = "";
-    document.getElementById('spot-image').src = spot.image;
-    const tagsList = spot.tags.split(",");
-    for (let tag of tagsList) {
-        document.getElementById('spot-tags').innerHTML += `<span class="characteristic">${tag}</span>`;
-    }
-}
-
-function fetchComments() {
-    fetch(`${backendBaseUrl}/comments/spot/${spotId}`)
-        .then(response => response.json())
-        .then(comments => {
-            allComments = comments;
-            renderComments(allComments);
-            updateSpotStats(allComments);
-        })
-        .catch(error => console.error('Error fetching comments:', error));
-}
-
-function updateSpotStats(comments) {
-    if (comments.length > 0) {
-        const avg = (comments.reduce((sum, c) => sum + c.rating, 0) / comments.length / 2).toFixed(1);
-        document.getElementById('spot-rating-avg').textContent = avg;
-        document.getElementById('spot-based-on').textContent = `Based on ${comments.length} reviews`;
-    } else {
-        document.getElementById('spot-rating-avg').textContent = 'N/A';
-        document.getElementById('spot-based-on').textContent = 'No reviews yet';
-    }
-}
-
-function applyFilters() {
-    const sortValue = document.getElementById('sort-select').value;
-    const filterValue = document.getElementById('filter-select').value;
-    let filtered = [...allComments];
-    if (filterValue !== 'all') {
-        const starValue = parseInt(filterValue) * 2;
-        filtered = filtered.filter(c => c.rating === starValue);
-    }
-    if (sortValue === 'highest') {
-        filtered.sort((a, b) => b.rating - a.rating);
-    } else if (sortValue === 'lowest') {
-        filtered.sort((a, b) => a.rating - b.rating);
-    } else {
-        filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    }
-    renderComments(filtered);
-}
-
-function renderComments(comments) {
-    const reviewList = document.getElementById('reviews-list');
-    reviewList.innerHTML = '';
-    comments.forEach(comment => {
-        reviewList.appendChild(createReviewCard(comment));
-    });
-}
-
-function createReviewCard(comment) {
-    const card = document.createElement('div');
-    card.classList.add('review-card');
-
-    const header = document.createElement('div');
-    header.classList.add('review-header');
-
-    const reviewerInfo = document.createElement('div');
-    reviewerInfo.classList.add('reviewer-info');
-
-    const avatar = document.createElement('div');
-    avatar.classList.add('reviewer-avatar');
-    avatar.textContent = 'U';
-
-    const nameDateWrapper = document.createElement('div');
-    const reviewerName = document.createElement('div');
-    reviewerName.textContent = "User #" + comment.userId;
-    const reviewDate = document.createElement('div');
-    reviewDate.classList.add('review-date');
-    reviewDate.textContent = formatDate(comment.timestamp);
-
-    nameDateWrapper.appendChild(reviewerName);
-    nameDateWrapper.appendChild(reviewDate);
-    reviewerInfo.appendChild(avatar);
-    reviewerInfo.appendChild(nameDateWrapper);
-
-    const rating = document.createElement('div');
-    rating.classList.add('review-rating');
-    const starRating = Math.round(comment.rating / 2);
-    rating.textContent = "★".repeat(starRating) + "☆".repeat(5 - starRating);
-
-    header.appendChild(reviewerInfo);
-    header.appendChild(rating);
-
-    const reviewText = document.createElement('div');
-    reviewText.classList.add('review-text');
-    reviewText.textContent = comment.description;
-
-    card.appendChild(header);
-    card.appendChild(reviewText);
-    return card;
-}
-
-function formatDate(timestamp) {
-    const dateObj = new Date(timestamp);
-    return dateObj.toLocaleString();
-}
-
-async function submitReview(e) {
-    e.preventDefault();
-    
-    const token = localStorage.getItem('userToken');
-    const userId = localStorage.getItem('userId');
-    
-    if (!token || !userId) {
-        alert('Please log in to submit a review');
-        return;
-    }
-
-    const ratingInput = document.querySelector('input[name="rating"]:checked');
-    const description = document.getElementById('review-description').value.trim();
-    
-    if (!ratingInput || !description) {
-        alert('Please provide both rating and description');
-        return;
-    }
-
-    const rating = parseInt(ratingInput.value) * 2;
-
-    const requestData = {
-        userId: userId,
-        postId: parseInt(spotId),
-        title: "User Review",
-        description: description,
-        rating: rating
-    };
-
-    try {
-        const response = await fetch(`${backendBaseUrl}/comments/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(requestData)
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Error submitting review');
-        }
-
-        const newComment = await response.json();
-        newComment.rating = Math.round(newComment.rating / 2);
-        allComments.unshift(newComment);
-        renderComments(allComments);
-        updateSpotStats(allComments);
-        
-        
-        document.getElementById('review-description').value = "";
-        document.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
-        document.getElementById('toggle-review-form').checked = false;
-        
-        alert('Review submitted successfully!');
-    } catch (error) {
-        console.error('Error adding comment:', error);
-        alert(error.message || 'Error submitting review. Please try again.');
-    }
-}
-        </script>
-</body>
+  </body>
+  <script src="../js/review_page.js"></script>
 </html>

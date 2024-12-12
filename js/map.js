@@ -11,12 +11,12 @@ function updateNavigation() {
       nav.innerHTML = '';
 
       const commonLinks = [
-          { href: './addspot.html', text: 'Add Spot' },
-          { href: './map.html', text: 'Map' },
-          { href: './review_page.html?spotid=1', text: 'Reviews' },
-          { href: './trending.html', text: 'Trending' },
-          { href: './login.html', text: 'Login' },
-          { href: './register.html', text: 'Register' }
+        { href: "./addspot.html", text: "Add Spot" },
+        { href: "./map.html", text: "Map" },
+        { href: "./spots_list.html", text: "Reviews" },
+        { href: "./trending.html", text: "Trending" },
+        { href: "./login.html", text: "Login" },
+        { href: "./register.html", text: "Register" },
       ];
 
       const userLinks = [

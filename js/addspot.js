@@ -1,62 +1,63 @@
 function updateNavigation() {
-  const isLoggedIn = localStorage.getItem('userToken') !== null;
-  const nav = document.querySelector('.nav-links');
+  const isLoggedIn = localStorage.getItem("userToken") !== null;
+  const nav = document.querySelector(".nav-links");
 
   if (!nav) {
-      console.error('Navigation menu not found');
-      return;
+    console.error("Navigation menu not found");
+    return;
   }
 
   try {
-      nav.innerHTML = '';
+    nav.innerHTML = "";
 
-      const commonLinks = [
-          { href: './addspot.html', text: 'Add Spot' },
-          { href: './map.html', text: 'Map' },
-          { href: './review_page.html?spotid=1', text: 'Reviews' },
-          { href: './trending.html', text: 'Trending' },
-          { href: './login.html', text: 'Login' },
-          { href: './register.html', text: 'Register' }
-      ];
+    const commonLinks = [
+      { href: "./addspot.html", text: "Add Spot" },
+      { href: "./map.html", text: "Map" },
+      { href: "./spots_list.html", text: "Reviews" },
+      { href: "./trending.html", text: "Trending" },
+      { href: "./login.html", text: "Login" },
+      { href: "./register.html", text: "Register" },
+    ];
 
-     const userLinks = [
-    ...commonLinks.filter(link => 
-        link.href !== './login.html' && 
-        link.href !== './register.html'
-    ),
-    { href: './savedspots.html', text: 'Saved Spots' },  
-    { href: '#', text: 'Logout', id: 'logout-btn' }
-];
-      const linksToRender = isLoggedIn ? userLinks : commonLinks;
+    const userLinks = [
+      ...commonLinks.filter(
+        (link) =>
+          link.href !== "./login.html" && link.href !== "./register.html",
+      ),
+      { href: "./savedspots.html", text: "Saved Spots" },
+      { href: "#", text: "Logout", id: "logout-btn" },
+    ];
+    const linksToRender = isLoggedIn ? userLinks : commonLinks;
 
-      linksToRender.forEach(link => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = link.href;
-          a.textContent = link.text;
+    linksToRender.forEach((link) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = link.href;
+      a.textContent = link.text;
 
-          if (window.location.pathname.endsWith(link.href.split('/').pop())) {
-              a.classList.add('active');
-          }
+      if (window.location.pathname.endsWith(link.href.split("/").pop())) {
+        a.classList.add("active");
+      }
 
-           if (link.id === 'logout-btn') {
-                        a.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            
-                            localStorage.removeItem('userToken');
-                            localStorage.removeItem('userId');
-                            
-                            window.location.href = '/pages/login.html';
-                        });
-                    }
+      if (link.id === "logout-btn") {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
 
-          li.appendChild(a);
-          nav.appendChild(li);
-      });
+          localStorage.removeItem("userToken");
+          localStorage.removeItem("userId");
+
+          window.location.href = "/pages/login.html";
+        });
+      }
+
+      li.appendChild(a);
+      nav.appendChild(li);
+    });
   } catch (error) {
-      console.error('Error updating navigation:', error);
+    console.error("Error updating navigation:", error);
   }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   updateNavigation();
   const registerForm = document.querySelector("form.spot-submission");
@@ -67,13 +68,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const hoursInput = document.getElementById("hours");
   const imageInput = document.getElementById("image");
 
+  const errorContainer = document.createElement("div");
+  errorContainer.className = "error-message";
+  errorContainer.style.cssText =
+    "color: #dc2626; padding: 10px; margin: 10px 0; display: none; text-align: center;";
+  registerForm.insertBefore(errorContainer, registerForm.firstChild);
+
   // Handle form submission
   registerForm.addEventListener("submit", async (event) => {
     event.preventDefault(); // Prevent default form submission
 
     // Collect selected tags
     const selectedTags = Array.from(
-      document.querySelectorAll("#tags input[type='checkbox']:checked")
+      document.querySelectorAll("#tags input[type='checkbox']:checked"),
     ).map((checkbox) => checkbox.value);
 
     const spotData = {
@@ -104,11 +111,14 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "../pages/map.html";
       } else {
         errorContainer.textContent = data.message || "Error adding study spot";
+        errorContainer.style.display = "block";
+        errorContainer.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     } catch (error) {
       console.error("Error:", error);
       errorContainer.textContent =
         "Unable to add spot. Please check your connection and try again.";
+      errorContainer.style.display = "block";
     }
   });
 });
