@@ -91,16 +91,16 @@ function updateNavigation() {
 
 async function saveSpot() {
   const token = localStorage.getItem("userToken");
-  const userId = localStorage.getItem("userId");
+  const userEmail = localStorage.getItem("userId");
 
-  if (!token || !userId) {
+  if (!token || !userEmail) {
     alert("Please log in to save spots");
     return;
   }
 
   try {
     const formData = new URLSearchParams();
-    formData.append("user_id", userId);
+    formData.append("email", userEmail);
     formData.append("spot_id", spotId);
 
     const response = await fetch(`${backendBaseUrl}/SavedStudySpots/add`, {
@@ -178,13 +178,24 @@ function updateSpotInfo(data) {
 
 function fetchComments() {
   fetch(`${backendBaseUrl}/comments/spot/${spotId}`)
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((comments) => {
-      allComments = comments;
+      // Ensure comments is an array
+      allComments = Array.isArray(comments) ? comments : [];
       renderComments(allComments);
       updateSpotStats(allComments);
     })
-    .catch((error) => console.error("Error fetching comments:", error));
+    .catch((error) => {
+      console.error("Error fetching comments:", error);
+      const reviewList = document.getElementById("reviews-list");
+      reviewList.innerHTML = "<p>No reviews yet. Be the first to review!</p>";
+      updateSpotStats([]);
+    });
 }
 
 function updateSpotStats(comments) {
@@ -282,9 +293,9 @@ async function submitReview(e) {
   e.preventDefault();
 
   const token = localStorage.getItem("userToken");
-  const userId = localStorage.getItem("userId");
+  const userEmail = localStorage.getItem("userId");
 
-  if (!token || !userId) {
+  if (!token || !userEmail) {
     alert("Please log in to submit a review");
     return;
   }
@@ -301,15 +312,26 @@ async function submitReview(e) {
 
   const rating = parseInt(ratingInput.value) * 2;
 
-  const requestData = {
-    userId: userId,
-    postId: parseInt(spotId),
-    title: "User Review",
-    description: description,
-    rating: rating,
-  };
-
+  // First get the user ID using the email
   try {
+    const userResponse = await fetch(
+      `${backendBaseUrl}/users/getbyemail?email=${encodeURIComponent(
+        userEmail,
+      )}`,
+    );
+    if (!userResponse.ok) {
+      throw new Error("Failed to get user information");
+    }
+    const userData = await userResponse.json();
+
+    const requestData = {
+      userId: userData.userId,
+      postId: parseInt(spotId),
+      title: "User Review",
+      description: description,
+      rating: rating,
+    };
+
     const response = await fetch(`${backendBaseUrl}/comments/add`, {
       method: "POST",
       headers: {
@@ -320,12 +342,10 @@ async function submitReview(e) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error submitting review");
+      throw new Error("Error submitting review");
     }
 
     const newComment = await response.json();
-    newComment.rating = Math.round(newComment.rating / 2);
     allComments.unshift(newComment);
     renderComments(allComments);
     updateSpotStats(allComments);

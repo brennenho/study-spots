@@ -58,7 +58,16 @@ function updateNavigation() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("userToken");
+  const userEmail = localStorage.getItem("userId"); // Currently storing email
+
+  if (!token || !userEmail) {
+    alert("Please log in to add a study spot");
+    window.location.href = "./login.html";
+    return;
+  }
+
   updateNavigation();
   const registerForm = document.querySelector("form.spot-submission");
   const spotNameInput = document.getElementById("spotname");
@@ -74,11 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
     "color: #dc2626; padding: 10px; margin: 10px 0; display: none; text-align: center;";
   registerForm.insertBefore(errorContainer, registerForm.firstChild);
 
-  // Handle form submission
   registerForm.addEventListener("submit", async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
-    // Collect selected tags
+    const token = localStorage.getItem("userToken");
+    const userEmail = localStorage.getItem("userId");
+
+    if (!token || !userEmail) {
+      alert("Please log in to add a study spot");
+      window.location.href = "./login.html";
+      return;
+    }
+
     const selectedTags = Array.from(
       document.querySelectorAll("#tags input[type='checkbox']:checked"),
     ).map((checkbox) => checkbox.value);
@@ -91,15 +107,15 @@ document.addEventListener("DOMContentLoaded", () => {
       hours: hoursInput.value.trim(),
       image: imageInput ? imageInput.value.trim() : "../img/default-spot.jpg",
       tags: selectedTags,
+      email: userEmail,
     };
-
-    console.log("Submitting spot data:", spotData); // Debug log
 
     try {
       const response = await fetch("http://localhost:8080/api/studyspots/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(spotData),
       });
@@ -112,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         errorContainer.textContent = data.message || "Error adding study spot";
         errorContainer.style.display = "block";
-        errorContainer.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     } catch (error) {
       console.error("Error:", error);
