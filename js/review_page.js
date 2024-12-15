@@ -149,10 +149,7 @@ function updateSpotInfo(data) {
   const spot = {
     name: data.name || "Unknown Spot",
     location: data.location || "Location not specified",
-    image:
-      data.image && data.image.includes("imgur.com")
-        ? data.image
-        : "/img/default-spot.jpg",
+    image: data.image ? data.image : "/img/default-spot.jpg",
     hours: data.hours || "Hours not specified",
     tags: data.tags
       ? typeof data.tags === "string"

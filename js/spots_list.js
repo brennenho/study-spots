@@ -64,10 +64,7 @@ function createSpotCard(spot) {
     : [];
 
   // Use default image if no valid imgur link
-  const imageUrl =
-    spot.image && spot.image.includes("imgur.com")
-      ? spot.image
-      : "/img/default-spot.jpg";
+  const imageUrl = spot.image ? spot.image : "/img/default-spot.jpg";
 
   card.innerHTML = `
         <img src="${imageUrl}" alt="${spot.name}" class="spot-image">

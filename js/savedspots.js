@@ -77,10 +77,7 @@ function createSpotCard(spot) {
       : spot.tags.split(",").map((tag) => tag.trim())
     : [];
 
-  const imageUrl =
-    spot.image && spot.image.includes("imgur.com")
-      ? spot.image
-      : "/img/default-spot.jpg";
+  const imageUrl = spot.image ? spot.image : "/img/default-spot.jpg";
 
   card.innerHTML = `
         <img src="${imageUrl}" alt="${spot.name || "Study Spot"}">
